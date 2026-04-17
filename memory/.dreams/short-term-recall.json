@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "updatedAt": "2026-04-17T01:41:02.859Z",
+  "entries": {
+    "memory:memory/2026-04-10.md:1:35": {
+      "key": "memory:memory/2026-04-10.md:1:35",
+      "path": "memory/2026-04-10.md",
+      "startLine": 1,
+      "endLine": 35,
+      "source": "memory",
+      "snippet": "# 2026-04-10 对话记录 ## 人物 - **佛罗多老爷**：老板，合作伙伴，手头紧张（$99），有 Mac + iPhone - **我**：AI 助手（OpenClaw/docker 容器内运行），全栈编程能力 ## 项目目标 - 贷款 **$50,000** 需要在 **4 个月**内还清 - 月均需赚：$12,500 - 工作日日均：约 $625 - 当前资金：仅剩 **$99** 美金 ## 已知资源 - Mac 电脑一台（可用于编译 iOS app） - iPhone 一台（用于测试） - $99 可用于开通苹果开发者账号（$99/年） ## 技术限制 - 我运行在 Docker Linux 容器中 - **无法直接操控 Mac**——没有 SSH 访问权限 - iOS app 必须用 macOS + Xcode 编译，Docker 容器无法跨平台编译 iOS ## 佛罗多的想法 1. Docker 容器里再创建 Docker → ❌ 不可行 2. 做完一个付费 app 再做下一个 3. 不懂技术方向，希望我帮他选 ## 待确认 - Mac 是否可以通过某种方式让我访问（SSH / VNC） - 是否考虑云 Mac 方案（如 MacinCloud） - App 方向选择（待我提出建议） ## 下一步 等我提出 app 方向建议，以及解决 iOS 编译问题的具体方案",
+      "recallCount": 3,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1.8972330406569786,
+      "maxScore": 0.6324110135523262,
+      "firstRecalledAt": "2026-04-17T01:25:49.211Z",
+      "lastRecalledAt": "2026-04-17T01:41:02.859Z",
+      "queryHashes": [
+        "a003c48b7359",
+        "cf492e581090",
+        "b296fbcf5c98"
+      ],
+      "recallDays": [
+        "2026-04-17"
+      ],
+      "conceptTags": [
+        "openclaw/docker",
+        "99/年",
+        "对话",
+        "记录",
+        "人物",
+        "老爷",
+        "老板",
+        "合作"
+      ]
+    }
+  }
+}

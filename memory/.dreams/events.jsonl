@@ -1,0 +1,3 @@
+{"type":"memory.recall.recorded","timestamp":"2026-04-17T01:25:49.211Z","query":"云Mac SSH 登录信息 MacinCloud","resultCount":1,"results":[{"path":"memory/2026-04-10.md","startLine":1,"endLine":35,"score":0.6324110135523262}]}
+{"type":"memory.recall.recorded","timestamp":"2026-04-17T01:25:54.559Z","query":"SSH MacinCloud LA690 host password","resultCount":1,"results":[{"path":"memory/2026-04-10.md","startLine":1,"endLine":35,"score":0.6324110135523262}]}
+{"type":"memory.recall.recorded","timestamp":"2026-04-17T01:41:02.859Z","query":"SSH login MacinCloud credentials","resultCount":1,"results":[{"path":"memory/2026-04-10.md","startLine":1,"endLine":35,"score":0.6324110135523262}]}

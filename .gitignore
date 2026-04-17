@@ -1,0 +1,19 @@
+# Credentials & Sensitive Data
+TOOLS.md
+*.pem
+*.key
+credentials.*
+secrets.*
+.env
+
+# OS Files
+.DS_Store
+*.swp
+*~
+
+# Logs
+*.log
+
+# Temp
+tmp/
+temp/
