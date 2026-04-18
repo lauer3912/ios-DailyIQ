@@ -8,36 +8,68 @@
 - **当前状态**: 紧急，全力搞钱
 
 ## 📱 当前项目
-1. **JustZen** (原 FocusTimer) - 番茄钟 App
-   - 状态: ✅ 构建成功，⏳ 待上传
+1. **JustZenGo** (原 FocusTimer/JustZen) - 番茄钟 App
+   - 状态: ✅ 构建成功，⏳ App Store Connect 有2个VALID Build，待提交审核
    - Bundle ID: com.ggsheng.JustZen
-   - 需要: App-Specific Password 上传
+   - App Store Connect App ID: 6762428992
 
-2. **Clarity** - 屏幕时间管理
-   - 状态: ✅ 构建成功，⏳ 待上传
-   - Bundle ID: com.clarity.app
+2. **UstiaGo** (原 Clarity) - 屏幕时间管理
+   - 状态: ✅ 构建成功，⏳ 待上传 App Store Connect
+   - Bundle ID: com.ggsheng.UstiaGo
+
+3. **HabitGo** (新) - 习惯追踪 App
+   - 状态: ✅ 源码完成，⏳ 待 XcodeGen 生成 + Archive
+   - Bundle ID: com.ggsheng.HabitGo
+   - Privacy Policy: https://lauer3912.github.io/ios-HabitGo/docs/PrivacyPolicy.html
+   - GitHub: https://github.com/lauer3912/ios-HabitGo
 
 ## 🚀 上线计划
-1. JustZen → App Store 上架
-2. Clarity → App Store 上架
-3. 创建更多 App 快速变现
+1. JustZenGo → App Store 填写元数据 → 提交审核
+2. UstiaGo → App Store Connect 上传 Build → 填写元数据 → 提交审核
+3. HabitGo → XcodeGen 生成项目 → Archive → 上传 Build → 填元数据 → 提交审核
+4. 继续创建更多 App 快速变现
 
 ## ⚡ 行动准则
 - 7x24 专注 App 开发
 - 收到 App-Specific Password 立即上传
 - 持续构建更多 App
+- **【强制】一次性处理完整**：任何改动不做半吊子，发现问题要系统性检查所有相关项，不只改表面。每次提交前必过「预检清单」（见下方）
+- App 源码必须 Cmd+B 能直接编译，验证通过后立刻 commit + push
 
 ## 📝 关键知识
-- XcodeGen: ~/tools/xcodegen/bin/xcodegen
+- XcodeGen: 需要 macOS 运行，Linux 环境无法执行（只有 macOS 二进制）
+  - 下载地址: https://github.com/yonaskolb/XcodeGen/releases
+  - 或在 MacinCloud VNC 里运行: `~/tools/xcodegen/bin/xcodegen generate`
 - 部署脚本: ~/tools/deploy.sh
 - App Store 上传需要 App-Specific Password
 - 云 Mac: MacinCloud LA690 (每天最多3小时)
 
 ## 📱 App Store 截图
-- **JustZenGo**: 8张不同截图 (Screen1_Home, Screen2_Statistics, Screen3_Intelligence, Screen4_Settings, Screen5_Achievements, Screen6_Shop, Screen7_Profile, Screen8_Projects)
-- **UstiaGo**: 7张不同截图 (Screen1_Today, Screen2_Focus, Screen3_Insights, Screen4_WindDown, Screen5_Settings + 2个iPhone67截图)
-- XCUITest 可以用于截 App Store 图（详见 AGENTS.md）
-- JustZenGo 的 sheet 按钮需要加 `accessibilityIdentifier` 才能精确 tap
+- **JustZenGo**: 8张不同截图，UITests MD5验证通过，commit `ca7a209`
+- **UstiaGo**: 5张不同截图，UITests MD5验证通过，commit `ee16a4c`
+- XCUITest 可用于截 App Store 图（详见 AGENTS.md）
+
+## 🛡️ App Store Connect — App 隐私（必填，被拒重灾区）
+
+所有 App Store Connect 提交前必须在「App 隐私」里如实作答：
+
+| 问题 | JustZenGo 答案 | UstiaGo 答案 |
+|------|---------------|---------------|
+| 健康/健身 | 否 | 否 |
+| 位置 | 否 | 否 |
+| 联系信息 | 否 | 否 |
+| 标识用户 | 否 | 否 |
+| 浏览历史 | 否 | 否 |
+| 购买行为 | 否 | 否 |
+| 崩溃日志 | 否 | 否 |
+| 性能数据 | 否 | 否 |
+| 广告 | 否 | 否 |
+
+**隐私政策 URL（GitHub Pages，/docs/ 路径）**：
+- JustZenGo: `https://lauer3912.github.io/ios-JustZenGo/docs/PrivacyPolicy.html`
+- UstiaGo: `https://lauer3912.github.io/ios-UstiaGo/docs/PrivacyPolicy.html`
+
+**部署方法**：push 到 `gh-pages` 分支的 `docs/` 目录，GitHub Pages source 设为 `/docs` 即可。
 
 ## 🎨 App Icon 设计标准（佛罗多老爷要求）
 
@@ -79,7 +111,54 @@ Repo 名 = 平台前缀 + 业务名（平台前缀: ios-, macos-, 等）
 | Bundle ID | com.ggsheng.{业务名} |
 | Display Name | 可用短名（Info.plist） |
 
+## 📦 iOS 打包签名经验（血的教训）
+
+### 1. AppIcon Contents.json 必须与实际像素尺寸严格匹配
+- **症状**：App Store Connect 报错 "Missing required icon file 120x120" 或 "152x152"
+- **原因**：Contents.json 里声明的 `size` 字段（如 `"40x40"`）与实际 PNG 像素尺寸不匹配
+- **正确对应**：
+  | 文件名 | Point Size | Scale | 实际像素 |
+  |--------|-----------|-------|---------|
+  | Icon-60@2x.png | 60pt | @2x | 120×120 |
+  | Icon-60@3x.png | 60pt | @3x | 180×180 |
+  | Icon-76@2x.png (iPad) | 76pt | @2x | 152×152 |
+  | Icon-83.5@2x.png (iPad Pro) | 83.5pt | @2x | 167×167 |
+- **检查方法**：`file Icon-60@2x.png` 确认实际像素，或用 Python `struct` 解析 PNG 头
+
+### 2. Signing 配置 — Archive 必须用 Automatic
+- `CODE_SIGN_STYLE: Manual` + `CODE_SIGNING_REQUIRED: NO` → archive 里没有团队信息 → Organizer 报 "No Team Found"
+- **正确配置**：
+  ```yaml
+  CODE_SIGN_STYLE: Automatic      # Archive 时自动签名并嵌入团队信息
+  CODE_SIGNING_REQUIRED: YES
+  DEVELOPMENT_TEAM: 9L6N2ZF26B
+  ```
+- Archive 时加 `-allowProvisioningUpdates` 让 Xcode 自动从 Portal 获取 provisioning profile
+- **MacinCloud SSH 限制**：`errSecInternalComponent` → SSH 非交互会话无法访问 keychain 私钥 → 用 VNC 桌面版 Xcode 完成 Sign and Upload
+
+### 🚀 iOS 项目预检清单（每次提交前必过）
+1. **CJK 扫描** — 全项目无一个中文字符（Python: `re.compile(r'[\u4e00-\u9fff]')`）
+2. **AppIcon Contents.json** — 每个文件的 `size` 字段与实际 PNG 像素尺寸严格匹配
+3. **Signing 配置** — `CODE_SIGN_STYLE: Automatic` + `DEVELOPMENT_TEAM: 9L6N2ZF26B`
+4. **Swift 源码** — `xcodebuild` 能编译通过
+5. **Archive** — `xcodebuild archive` 能生成 .xcarchive
+6. **Entitlements** — 文件存在且 App Groups / Push 配置正确
+7. **Privacy Policy** — HTML 存在且为英文，`lang="en"`
+8. **App Store 文档** — Listing.md / HOW-TO.md 存在且为英文
+9. **Info.plist** — `CFBundleDisplayName`（英文）、`CFBundleShortVersionString`、`CFBundleVersion` 与 project.yml 一致
+10. **App 隐私答案** — App Store Connect「App 隐私」里数据收集全部答"否"
+11. **截图尺寸** — 确认 App Store Connect 要求的尺寸齐全（iPhone 6.7"/6.5"、iPad 12.9"）
+12. **隐私政策 URL** — 已 host 到公网可访问的地址
+
+### 3. Xcode Organizer Sign and Upload 是最优解
+- 不走命令行 `altool`/`xcrun altool`（JWT 限制多、证书创建 scope 被拒）
+- 让用户在 VNC 桌面里手动点：Xcode → Window → Organizer → Distribute → Sign and Upload
+
 ## 📱 当前项目状态
+| 项目 | 业务名 | Repo | GitHub 最新 commit | App Store |
+|------|--------|------|-------------------|----------|
+| 番茄钟 | JustZenGo | ios-JustZenGo | `fae01a8` App Store内容英文化 | 有2个VALID Build，待填元数据 |
+| 屏幕时间 | UstiaGo | ios-UstiaGo | `0b5472c` AppIcon尺寸修复 | 待上传 + 填元数据 |
 | 项目 | 业务名 | Repo | 状态 |
 |------|--------|------|------|
 | 番茄钟 | JustZenGo | ios-JustZenGo | ✅ |
