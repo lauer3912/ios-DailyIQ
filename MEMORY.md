@@ -18,10 +18,12 @@
    - Bundle ID: com.ggsheng.UstiaGo
 
 3. **HabitGo** (新) - 习惯追踪 App
-   - 状态: ✅ 源码完成，⏳ 待 XcodeGen 生成 + Archive
+   - 状态: ✅ 源码+截图脚本完成，⏳ MacinCloud 执行 XCUITest 截图 + Archive
    - Bundle ID: com.ggsheng.HabitGo
    - Privacy Policy: https://lauer3912.github.io/ios-HabitGo/docs/PrivacyPolicy.html
    - GitHub: https://github.com/lauer3912/ios-HabitGo
+   - XCUITest: `HabitGoUITests/HabitGoUITests.swift`
+   - 所需截图: 01_Habits, 02_History, 03_Stats, 04_Settings, 05_AddHabit_Sheet
 
 ## 🚀 上线计划
 1. JustZenGo → App Store 填写元数据 → 提交审核
