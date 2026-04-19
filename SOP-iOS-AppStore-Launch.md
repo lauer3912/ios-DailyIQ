@@ -248,15 +248,20 @@ settings:
 
 ---
 
-## 第四阶段：必需的文件
+## 第四阶段：必需的文件 + Info.plist 预配置
 
-### 4.1 主 App Info.plist
+> **⚠️ 所有 Info.plist 字段必须在开发阶段就配好，不能等到提交前才填。**
+
+### 4.1 主 App Info.plist（含预配置）
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <!-- 出口合规：避免每次提交被问到加密问题 -->
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
     <key>CFBundleDevelopmentRegion</key>
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     <key>CFBundleDisplayName</key>
@@ -308,6 +313,19 @@ settings:
             </array>
         </dict>
     </array>
+    <!-- ========== 权限描述（必须英文，禁止中文）============ -->
+    <key>NSHealthShareUsageDescription</key>
+    <string>{AppName} needs to read health data to analyze your focus sessions and heart rate patterns.</string>
+    <key>NSHealthUpdateUsageDescription</key>
+    <string>{AppName} needs to log focus activities to the Health app.</string>
+    <key>NSCalendarsUsageDescription</key>
+    <string>{AppName} needs access to your calendar to view your schedule and remind you of focus sessions.</string>
+    <key>NSCalendarsFullAccessUsageDescription</key>
+    <string>{AppName} needs full calendar access to view your schedule and avoid disturbing you during meetings.</string>
+    <key>NSUserNotificationsUsageDescription</key>
+    <string>{AppName} needs to send notifications to remind you when focus sessions start and end.</string>
+    <key>NSSiriUsageDescription</key>
+    <string>Allow Siri to start the focus timer.</string>
 </dict>
 </plist>
 ```
@@ -495,6 +513,60 @@ grep 'PRODUCT_BUNDLE_IDENTIFIER' {AppName}.xcodeproj/project.pbxproj
 ```
 
 ---
+
+
+
+---
+
+## 5B 阶段：App Store 截图制作
+
+### 5.4 App Store 截图尺寸要求（必须符合最新 Apple 规范）
+
+> Apple 随时可能更新要求，提交前以 App Store Connect 页面显示的尺寸为准。
+
+**必需尺寸（2024-2026 年）：**
+
+| 设备 | 尺寸（像素）| 方向 | 最少数量 |
+|------|-----------|------|---------|
+| iPhone 6.9" | 1320×2868 或 2796×1296 | 竖 / 横 | 1 张（建议 3-5 张）|
+| iPhone 6.7" | 1284×2778 或 2778×1284 | 竖 / 横 | 1 张 |
+| iPad 12.9" | 2064×2752 或 2752×2064 | 竖 / 横 | 1 张 |
+
+**模拟器截图命令：**
+```bash
+# iPhone 16 Pro Max (6.9")
+xcrun simctl io {UDID} screenshot /tmp/screenshot.png
+
+# iPad Pro 13" M5 (2064×2752)
+xcrun simctl io {UDID} screenshot /tmp/screenshot.png
+```
+
+**XCUITest 截图方法（推荐）：**
+```swift
+func ss(_ name: String) {
+    let data = app.windows.firstMatch.screenshot().pngRepresentation
+    try? data.write(to: URL(fileURLWithPath: "/tmp/\(name).png"))
+}
+```
+
+### 5.5 截图文件名规范
+
+```
+iPhone_69_portrait_01_Home.png
+iPhone_69_portrait_02_Features.png
+iPad_129_portrait_01_Home.png
+...
+```
+
+### 5.6 验证截图尺寸
+```python
+import struct, os
+for f in os.listdir('/tmp/Screenshots/'):
+    with open(f'/tmp/Screenshots/{f}','rb') as fh:
+        w = struct.unpack('>I', fh.read(16)[12:16])[0]
+        h = struct.unpack('>I', fh.read(16)[12:16])[0]
+    print(f'{w}x{h}  {f}')
+```
 
 ## 第六阶段：Widget 数据共享
 
@@ -1109,36 +1181,11 @@ focus timer, productivity, focus, concentration, study, work, timer, habit, trac
 - 期间可在 App Store Connect 查看状态变化
 - 审核被拒：邮件通知具体原因，按原因修改后重新提交
 
-### 8.6 Info.plist 预配置（避免每次回答）
+### 8.6 参考已集成到对应阶段
 
-**出口合规（必须）：**
-```xml
-<key>ITSAppUsesNonExemptEncryption</key>
-<false/>
-```
+**Info.plist 预配置 → 详见第四阶段 4.1 节**（含出口合规 + 英文权限描述）
 
-**所有权限 Usage Description 必须英文（禁止中文）：**
-```xml
-<!-- HealthKit -->
-<key>NSHealthShareUsageDescription</key>
-<string>{AppName} needs to read health data to analyze your focus sessions.</string>
-<key>NSHealthUpdateUsageDescription</key>
-<string>{AppName} needs to log focus activities to the Health app.</string>
-
-<!-- Calendar -->
-<key>NSCalendarsUsageDescription</key>
-<string>{AppName} needs access to your calendar to remind you of focus sessions.</string>
-<key>NSCalendarsFullAccessUsageDescription</key>
-<string>{AppName} needs full calendar access to view your schedule.</string>
-
-<!-- Notifications -->
-<key>NSUserNotificationsUsageDescription</key>
-<string>{AppName} needs to send notifications to remind you when focus sessions start and end.</string>
-
-<!-- Siri -->
-<key>NSSiriUsageDescription</key>
-<string>Allow Siri to start the focus timer.</string>
-```
+**截图尺寸 → 详见第五阶段 5.4 节**
 
 ---
 
