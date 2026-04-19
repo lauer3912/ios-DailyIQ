@@ -192,7 +192,34 @@ Repo 名 = 平台前缀 + 业务名（平台前缀: ios-, macos-, 等）
 11. **截图尺寸** — 确认 App Store Connect 要求的尺寸齐全（iPhone 6.7"/6.5"、iPad 12.9"）
 12. **隐私政策 URL** — 已 host 到公网可访问的地址
 
-### 3. Xcode Organizer Sign and Upload 是最优解
+### 3. Xcode Archive Signing 配置（所有 iOS 项目必须遵循）
+**错误**：`Use the Signing & Capabilities editor to assign a team to the targets`
+
+**根本原因**：`project.yml` signing 配置不正确，Archive 时 Xcode 找不到 Team
+
+**解决方案模板（每个 target 必须包含）**：
+```yaml
+settings:
+  base:
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: 9L6N2ZF26B
+    CODE_SIGNING_ALLOWED: NO          # simulator 跳过签名
+    CODE_SIGN_ENTITLEMENTS: ...
+  configs:
+    Debug:
+      CODE_SIGNING_ALLOWED: NO        # simulator 构建
+    Release:
+      CODE_SIGNING_ALLOWED: YES       # archive 构建
+```
+
+**关键要点**：
+- base level 禁止只有 `CODE_SIGNING_ALLOWED=NO`（会阻止 Release 签名）
+- 必须用 `configs: Debug/Release` per-config 覆盖
+- Widget 也必须有 Release=YES（否则和主 App 证书不匹配，报 "Not Code Signed"）
+- 成功参考项目：JustZenGo（对比发现问题）
+- 每次改完 project.yml：push → MacinCloud pull → XcodeGen → 验证
+
+### 4. Xcode Organizer Sign and Upload 是最优解
 - 不走命令行 `altool`/`xcrun altool`（JWT 限制多、证书创建 scope 被拒）
 - 让用户在 VNC 桌面里手动点：Xcode → Window → Organizer → Distribute → Sign and Upload
 
