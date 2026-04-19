@@ -919,3 +919,244 @@ targets:
 | `{DesiredDisplayName}` | 想在手机桌面显示的名字 | FocusFlow |
 | `{RepoFolder}` | 本地仓库文件夹名 | ios-FocusTimer |
 | `{UDID}` | 模拟器 UDID | 59030A31-... |
+
+---
+
+## 第八阶段：App Store Connect 填写与提交审核
+
+### 8.1 提交审核前的准备工作
+
+**所有文本必须英文，包括：**
+- App 描述
+- 关键词
+- 隐私政策
+- Info.plist 中的所有 Usage Description（权限描述）
+- 截图
+
+**禁用词汇（App Store 自动拒绝）：**
+- ❌ `Pomodoro`（番茄工作法注册商标）→ 用 `focus timer` / `focus technique` 代替
+- ❌ `heatmap` → 用 `streak calendar` / `monthly calendar` 代替
+- ❌ emoji 表情符号（App Store 描述不支持 emoji）
+
+**所有描述用纯 ASCII 字符**，破折号 `--` 代替 emoji bullet
+
+### 8.2 App Store Connect 填写清单
+
+> 以中文版 App Store Connect 为例
+
+#### 第一步：创建 App（或选择已有）
+
+1. 登录 https://appstoreconnect.apple.com
+2. **"我的 App"** → **"+"** → **"新建 App"**
+3. 填写：
+
+| 字段 | 填写内容 |
+|------|---------|
+| 平台 | ✅ **iOS** |
+| 名称 | `{AppName}`（App Store 显示名称）|
+| 主语言 | **English** |
+| Bundle ID | 选择对应的 Bundle ID（如 `com.ggsheng.{AppName}`）|
+| SKU | `{AppName}-100`（随便填，唯一即可）|
+
+#### 第二步：App 隐私（左菜单）
+
+**必须全部选择"否"：**
+
+| 问题 | 答案 |
+|------|------|
+| 健康与健身 | **否** |
+| 位置 | **否** |
+| 联系信息 | **否** |
+| 标识符 | **否** |
+| 浏览历史与搜索 | **否** |
+| 购买行为 | **否** |
+| 崩溃日志 | **否** |
+| 性能数据 | **否** |
+| 广告 | **否** |
+
+滚动到底部：
+- **隐私权政策网址**：填入 GitHub Pages URL，例如：
+  ```
+  https://lauer3912.github.io/ios-{AppName}/docs/PrivacyPolicy.html
+  ```
+
+⚠️ **必须点"存储"按钮**
+
+#### 第三步：定价与范围（左菜单）
+
+| 字段 | 内容 |
+|------|------|
+| 价格 | 选具体金额（如 $9.99）或 Free |
+| 可用性 | **全部地区** |
+
+⚠️ **必须点"存储"按钮**
+
+#### 第四步：App Store 信息（左菜单）
+
+逐项填写：
+
+**1. 名称**
+```
+{AppName}
+```
+
+**2. 副标题**
+```
+{Focus Training · Deep Work · Productivity Booster}
+```
+
+**3. 隐私政策网址**（已填，跳过）
+
+**4. 描述**（description）
+```
+100+ features -- the most complete focus app ever made.
+
+{AppName} takes the classic focus technique to a whole new level. AI-adaptive smarts, immersive ambient sounds, detailed progress tracking, and a design you'll actually love -- all to help you rebuild your focus.
+
+Core Features
+
+- AI-Adaptive Focus -- Smart work/rest duration adjustment that optimizes in real-time.
+- 12 Immersive Ambient Sounds -- Rain, forest, ocean waves, coffee shop, white noise -- all synthesized locally.
+- 100+ Achievement Badges -- From "First Focus" to "100-Hour Master."
+- Focus Streak Calendar -- Monthly calendar showing your daily focus journey.
+- Deep Data Insights -- Daily/weekly/monthly focus reports.
+- Rolling Focus Mode -- Continuous focus mode with seamless work sessions.
+- Daily Challenges -- A unique micro focus challenge every day.
+
+Why {AppName}?
+
+- Beautifully Designed -- Not another dark-themed productivity app.
+- Offline First -- No network required. All features run locally.
+- Ad-Free -- No annoying ads ever.
+
+${price} one-time purchase -- lifetime access, no subscription
+
+Start rebuilding your focus today.
+```
+
+**5. 关键词**
+```
+focus timer, productivity, focus, concentration, study, work, timer, habit, tracker, time management, deep work, mindfulness, focus music, white noise, achievement, streak, focus tracker, time tracker, concentration app, task timer
+```
+
+**6. 促销文本**（可选，不填也可）
+```
+{AppName} -- AI-adaptive focus timer with ambient sounds, streak tracking & insights. ${price} one-time. Try today.
+```
+
+**7. 营销网址**（可选，留空）
+
+**8. 年龄分级**
+- 点 **"设置年龄分级"** → 选择 **"4+"**
+
+**9. 类别**
+- 主类别：**Productivity（效率）**
+- 次类别：（不选）
+
+⚠️ **必须点"存储"按钮**
+
+#### 第五步：App Store 截图（左菜单）
+
+**必需尺寸（2024年起）：**
+
+| 设备 | 尺寸（像素）| 最少数量 |
+|------|-----------|---------|
+| iPhone 6.9" | 1320×2868 或 2796×1296 | 1 张（建议 3-5 张）|
+| iPhone 6.7" | 1284×2778 或 2778×1284 | 1 张 |
+| iPad 12.9" | 2064×2752 或 2752×2064 | 1 张 |
+
+**操作：** 点击每个尺寸下方的 **"+"** 按钮，上传截图文件
+
+#### 第六步：Build（左菜单）
+
+选择最新上传的 Build（通常在最上面）
+
+#### 第七步：审核信息（左菜单）
+
+| 字段 | 填写内容 |
+|------|---------|
+| 登录信息 | **否**（不需要账号）|
+| 备注 | （留空）|
+
+#### 第八步：出口合规（左菜单）
+
+> **如果 Info.plist 已配置 `ITSAppUsesNonExemptEncryption = NO`，此步骤会自动跳过。**
+
+如果仍出现，答：
+- 问：你的 App 是否使用了加密？
+- 答：**否**
+
+### 8.3 提交审核
+
+确认所有必填项后：
+1. 点左侧顶部或底部的 **"添加至审核"** / **"提交以供审核"**
+2. 确认信息 → 点 **"提交"**
+
+### 8.4 常见报错
+
+| 错误信息 | 原因 | 解决 |
+|---------|------|------|
+| "必须提供 App 隐私信息" | App 隐私未点"存储" | 返回 App 隐私页面，点"存储" |
+| "必须选择主要类别" | 类别未选 | App Store 信息 → 类别 → 选 Productivity |
+| "名称已被使用" | App Store 名称被占 | 换名称，或用策略一处理 |
+| "截图尺寸不对" | 尺寸不符合要求 | 按 8.2 节尺寸要求重新截图 |
+| "描述包含禁止词汇" | 用了 Pomodoro 等词 | 移除并替换为替代词 |
+
+### 8.5 提交后
+
+- 状态变为 **"正在等待审核"** / **"Waiting for Review"**
+- 首次审核通常 **7-14 个工作日**
+- 期间可在 App Store Connect 查看状态变化
+- 审核被拒：邮件通知具体原因，按原因修改后重新提交
+
+### 8.6 Info.plist 预配置（避免每次回答）
+
+**出口合规（必须）：**
+```xml
+<key>ITSAppUsesNonExemptEncryption</key>
+<false/>
+```
+
+**所有权限 Usage Description 必须英文（禁止中文）：**
+```xml
+<!-- HealthKit -->
+<key>NSHealthShareUsageDescription</key>
+<string>{AppName} needs to read health data to analyze your focus sessions.</string>
+<key>NSHealthUpdateUsageDescription</key>
+<string>{AppName} needs to log focus activities to the Health app.</string>
+
+<!-- Calendar -->
+<key>NSCalendarsUsageDescription</key>
+<string>{AppName} needs access to your calendar to remind you of focus sessions.</string>
+<key>NSCalendarsFullAccessUsageDescription</key>
+<string>{AppName} needs full calendar access to view your schedule.</string>
+
+<!-- Notifications -->
+<key>NSUserNotificationsUsageDescription</key>
+<string>{AppName} needs to send notifications to remind you when focus sessions start and end.</string>
+
+<!-- Siri -->
+<key>NSSiriUsageDescription</key>
+<string>Allow Siri to start the focus timer.</string>
+```
+
+---
+
+### 8.7 实际案例参考
+
+**JustZenGo 提交记录：**
+
+| 项目 | 值 |
+|------|-----|
+| App Store 名称 | JustZenGo |
+| Bundle ID | com.ggsheng.JustZen |
+| 定价 | $9.99（应用内购买 $9.99/year）|
+| 隐私政策 | https://lauer3912.github.io/ios-JustZenGo/docs/PrivacyPolicy.html |
+| 类别 | Productivity / 效率 |
+| 年龄分级 | 4+ |
+| 出口合规 | ITSAppUsesNonExemptEncryption = NO（已预配置）|
+| 登录信息 | 否 |
+| 禁用词 | 禁止 Pomodoro、heatmap、emoji |
+| 支持 URL | https://github.com/lauer3912/ios-JustZenGo |
+| 版权 | Copyright © 2026 ZhiFeng Sun |
+| 截图 | iPhone 6.9" (1320×2868) x5 + iPad 12.9" (2064×2752) x5 |
