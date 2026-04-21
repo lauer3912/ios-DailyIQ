@@ -44,6 +44,10 @@
     "app-store-changelog": {
       "version": "1.0.1",
       "installedAt": 1776376792029
+    },
+    "ios": {
+      "version": "1.0.0",
+      "installedAt": 1776608440526
     }
   }
 }

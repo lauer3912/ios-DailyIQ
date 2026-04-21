@@ -528,9 +528,10 @@ grep 'PRODUCT_BUNDLE_IDENTIFIER' {AppName}.xcodeproj/project.pbxproj
 
 | 设备 | 尺寸（像素）| 方向 | 最少数量 |
 |------|-----------|------|---------|
-| iPhone 6.9" | 1320×2868 或 2796×1296 | 竖 / 横 | 1 张（建议 3-5 张）|
-| iPhone 6.7" | 1284×2778 或 2778×1284 | 竖 / 横 | 1 张 |
-| iPad 12.9" | 2064×2752 或 2752×2064 | 竖 / 横 | 1 张 |
+| iPhone 6.9" | 1320×2868 或 2796×1296 | 竖 / 横 | 3 张（建议 3-5 张）|
+| iPhone 6.5" | 1284×2778 或 2778×1284 | 竖 / 横 | 3 张 |
+| iPhone 6.3" | 1206×2622 或 2556x1179 | 竖 / 横 | 3 张 |
+| iPad 12.9" | 2064×2752 或 2752×2064 | 竖 / 横 | 3 张 |
 
 **模拟器截图命令：**
 ```bash
@@ -1072,14 +1073,14 @@ targets:
 {AppName}
 ```
 
-**2. 副标题**
+**2. 副标题** (最多30个字符)
 ```
-{Focus Training · Deep Work · Productivity Booster}
+{Focus Training · Deep Work}
 ```
 
 **3. 隐私政策网址**（已填，跳过）
 
-**4. 描述**（description）
+**4. 描述**（description，最多）
 ```
 100+ features -- the most complete focus app ever made.
 
@@ -1106,12 +1107,12 @@ ${price} one-time purchase -- lifetime access, no subscription
 Start rebuilding your focus today.
 ```
 
-**5. 关键词**
+**5. 关键词** (最多100个字符)
 ```
-focus timer, productivity, focus, concentration, study, work, timer, habit, tracker, time management, deep work, mindfulness, focus music, white noise, achievement, streak, focus tracker, time tracker, concentration app, task timer
+focus timer, productivity, focus, concentration, study, work
 ```
 
-**6. 促销文本**（可选，不填也可）
+**6. 促销文本**（可选，不填也可，最多170个字符）
 ```
 {AppName} -- AI-adaptive focus timer with ambient sounds, streak tracking & insights. ${price} one-time. Try today.
 ```
@@ -1131,11 +1132,12 @@ focus timer, productivity, focus, concentration, study, work, timer, habit, trac
 
 **必需尺寸（2024年起）：**
 
-| 设备 | 尺寸（像素）| 最少数量 |
-|------|-----------|---------|
-| iPhone 6.9" | 1320×2868 或 2796×1296 | 1 张（建议 3-5 张）|
-| iPhone 6.7" | 1284×2778 或 2778×1284 | 1 张 |
-| iPad 12.9" | 2064×2752 或 2752×2064 | 1 张 |
+| 设备 | 尺寸（像素）| 方向 | 最少数量 |
+|------|-----------|------|---------|
+| iPhone 6.9" | 1320×2868 或 2796×1296 | 竖 / 横 | 3 张（建议 3-5 张）|
+| iPhone 6.5" | 1284×2778 或 2778×1284 | 竖 / 横 | 3 张 |
+| iPhone 6.3" | 1206×2622 或 2556x1179 | 竖 / 横 | 3 张 |
+| iPad 12.9" | 2064×2752 或 2752×2064 | 竖 / 横 | 3 张 |
 
 **操作：** 点击每个尺寸下方的 **"+"** 按钮，上传截图文件
 
