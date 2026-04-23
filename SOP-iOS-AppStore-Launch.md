@@ -548,23 +548,29 @@ grep 'PRODUCT_BUNDLE_IDENTIFIER' {AppName}.xcodeproj/project.pbxproj
 
 > Apple 随时可能更新要求，提交前以 App Store Connect 页面显示的尺寸为准。
 
-**必需尺寸（2024-2026 年）：**
+**必需尺寸（4 个设备，每个至少 3 张，共最少 12 张）：**
 
 | 设备 | 尺寸（像素）| 方向 | 最少数量 |
 |------|-----------|------|---------|
-| iPhone 6.9" | 1290×2796 或 2796×1290 | 竖 / 横 | **5 张**（建议全部 5 张）|
-| iPad 12.9"（第 6/7 代，iPad Pro 12.9"） | 2048×2732 或 2732×2048 | 竖 / 横 | **5 张**（建议全部 5 张）|
+| iPhone 6.7" | 1290×2796 或 2796×1290 | 竖 / 横 | 3 张 |
+| iPhone 6.5" | 1284×2778 或 2778×1284 | 竖 / 横 | 3 张 |
+| iPhone 6.1" | 1170×2532 或 2532×1170 | 竖 / 横 | 3 张 |
+| iPad 12.9" | 2048×2732 或 2732×2048 | 竖 / 横 | 3 张 |
 
-> ⚠️ **iPhone 6.5"、6.3" 等小尺寸截图无需单独提交。** Apple 会自动为没有单独截图的尺寸匹配合适的大尺寸截图。如果只有 iPhone 6.9" 截图，App Store Connect 也会接受。
-
-> 提交前以 App Store Connect 页面上显示的要求尺寸为准。
+> ⚠️ **必须覆盖全部 4 个设备尺寸，每个至少 3 张。** App Store Connect 对每个设备都要求至少 3 张截图，少一个设备都会被拒。
 
 **模拟器截图命令：**
 ```bash
-# iPhone 16 Pro Max (6.9")
+# iPhone 6.7" (1290×2796)
 xcrun simctl io {UDID} screenshot /tmp/screenshot.png
 
-# iPad Pro 13" (2048×2732)
+# iPhone 6.5" (1284×2778)
+xcrun simctl io {UDID} screenshot /tmp/screenshot.png
+
+# iPhone 6.1" (1170×2532)
+xcrun simctl io {UDID} screenshot /tmp/screenshot.png
+
+# iPad 12.9" (2048×2732)
 xcrun simctl io {UDID} screenshot /tmp/screenshot.png
 ```
 
@@ -579,10 +585,18 @@ func ss(_ name: String) {
 ### 6.2 截图文件名规范
 
 ```
-iPhone_69_portrait_01_Home.png
-iPhone_69_portrait_02_Features.png
-iPad_129_portrait_01_Home.png
-...
+iPhone_67_portrait_01_Home.png   # 6.7" (1290×2796)
+iPhone_67_portrait_02_Features.png
+iPhone_67_portrait_03_Settings.png
+iPhone_65_portrait_01_Home.png   # 6.5" (1284×2778)
+iPhone_65_portrait_02_Features.png
+iPhone_65_portrait_03_Settings.png
+iPhone_61_portrait_01_Home.png   # 6.1" (1170×2532)
+iPhone_61_portrait_02_Features.png
+iPhone_61_portrait_03_Settings.png
+iPad_129_portrait_01_Home.png   # 12.9" (2048×2732)
+iPad_129_portrait_02_Features.png
+iPad_129_portrait_03_Settings.png
 ```
 
 ### 6.3 验证截图尺寸
@@ -1156,12 +1170,14 @@ focus timer, productivity, focus, concentration, study, work
 
 #### 第八步：App Store 截图（左菜单）
 
-**必需尺寸（2024年起）：**
+**必需尺寸（4 个设备，每个至少 3 张，共最少 12 张）：**
 
 | 设备 | 尺寸（像素）| 方向 | 最少数量 |
 |------|-----------|------|---------|
-| iPhone 6.9" | 1290×2796 或 2796×1290 | 竖 / 横 | 5 张 |
-| iPad 12.9" | 2048×2732 或 2732×2048 | 竖 / 横 | 5 张 |
+| iPhone 6.7" | 1290×2796 或 2796×1290 | 竖 / 横 | 3 张 |
+| iPhone 6.5" | 1284×2778 或 2778×1284 | 竖 / 横 | 3 张 |
+| iPhone 6.1" | 1170×2532 或 2532×1170 | 竖 / 横 | 3 张 |
+| iPad 12.9" | 2048×2732 或 2732×2048 | 竖 / 横 | 3 张 |
 
 **操作：** 点击每个尺寸下方的 **"+"** 按钮，上传截图文件
 
@@ -1208,4 +1224,4 @@ focus timer, productivity, focus, concentration, study, work
 - 审核被拒：邮件通知具体原因，按原因修改后重新提交
 
 > **实际案例参考（JustZenGo）：** App Store 名称 JustZenGo / Bundle ID com.ggsheng.JustZen / 定价 $9.99 / 隐私政策 https://lauer3912.github.io/ios-JustZenGo/docs/PrivacyPolicy.html / 类别 Productivity / 年龄分级 4+ / 出口合规已预配置 / 登录信息否 / 禁用 Pomodoro、heatmap、emoji / 版权 Copyright © 2026 ZhiFeng Sun
-| 截图 | iPhone 6.9" (1290×2796) x5 + iPad 12.9" (2048×2732) x5 |
+| 截图 | iPhone 6.7"(1290×2796)x3 + iPhone 6.5"(1284×2778)x3 + iPhone 6.1"(1170×2532)x3 + iPad 12.9"(2048×2732)x3 |
