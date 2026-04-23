@@ -542,9 +542,9 @@ grep 'PRODUCT_BUNDLE_IDENTIFIER' {AppName}.xcodeproj/project.pbxproj
 
 ---
 
-## 5B 阶段：App Store 截图制作
+## 第六阶段：App Store 截图制作
 
-### 5.4 App Store 截图尺寸要求（必须符合最新 Apple 规范）
+### 6.1 App Store 截图尺寸要求（必须符合最新 Apple 规范）
 
 > Apple 随时可能更新要求，提交前以 App Store Connect 页面显示的尺寸为准。
 
@@ -552,17 +552,19 @@ grep 'PRODUCT_BUNDLE_IDENTIFIER' {AppName}.xcodeproj/project.pbxproj
 
 | 设备 | 尺寸（像素）| 方向 | 最少数量 |
 |------|-----------|------|---------|
-| iPhone 6.9" | 1320×2868 或 2796×1296 | 竖 / 横 | 3 张（建议 3-5 张）|
-| iPhone 6.5" | 1284×2778 或 2778×1284 | 竖 / 横 | 3 张 |
-| iPhone 6.3" | 1206×2622 或 2556x1179 | 竖 / 横 | 3 张 |
-| iPad 12.9" | 2064×2752 或 2752×2064 | 竖 / 横 | 3 张 |
+| iPhone 6.9" | 1290×2796 或 2796×1290 | 竖 / 横 | **5 张**（建议全部 5 张）|
+| iPad 12.9"（第 6/7 代，iPad Pro 12.9"） | 2048×2732 或 2732×2048 | 竖 / 横 | **5 张**（建议全部 5 张）|
+
+> ⚠️ **iPhone 6.5"、6.3" 等小尺寸截图无需单独提交。** Apple 会自动为没有单独截图的尺寸匹配合适的大尺寸截图。如果只有 iPhone 6.9" 截图，App Store Connect 也会接受。
+
+> 提交前以 App Store Connect 页面上显示的要求尺寸为准。
 
 **模拟器截图命令：**
 ```bash
 # iPhone 16 Pro Max (6.9")
 xcrun simctl io {UDID} screenshot /tmp/screenshot.png
 
-# iPad Pro 13" M5 (2064×2752)
+# iPad Pro 13" (2048×2732)
 xcrun simctl io {UDID} screenshot /tmp/screenshot.png
 ```
 
@@ -574,7 +576,7 @@ func ss(_ name: String) {
 }
 ```
 
-### 5.5 截图文件名规范
+### 6.2 截图文件名规范
 
 ```
 iPhone_69_portrait_01_Home.png
@@ -583,7 +585,7 @@ iPad_129_portrait_01_Home.png
 ...
 ```
 
-### 5.6 验证截图尺寸
+### 6.3 验证截图尺寸
 ```python
 import struct, os
 for f in os.listdir('/tmp/Screenshots/'):
@@ -593,9 +595,9 @@ for f in os.listdir('/tmp/Screenshots/'):
     print(f'{w}x{h}  {f}')
 ```
 
-## 第六阶段：Widget 数据共享
+## 第七阶段：Widget 数据共享
 
-### 6.1 App Groups 配置
+### 7.1 App Groups 配置
 
 **主 App 写入：**
 ```swift
@@ -620,9 +622,9 @@ let data = sharedDefaults?.data(forKey: "habits")
 
 ---
 
-## 第七阶段：App Store Connect 上传
+## 第八阶段：App Store Connect 上传
 
-### 7.1 Archive 操作（VNC 桌面）
+### 8.1 Archive 操作（VNC 桌面）
 
 1. Xcode 打开 `{AppName}.xcodeproj`
 2. 顶部 scheme 选择 `{AppName}`
@@ -632,7 +634,7 @@ let data = sharedDefaults?.data(forKey: "habits")
 6. Team 选择 **ZhiFeng Sun (9L6N2ZF26B)**
 7. 等待上传完成 → **Validate App** 验证
 
-### 7.2 App Store Connect 填写
+### 8.2 App Store Connect 填写
 
 | 字段 | 填写内容 |
 |------|---------|
@@ -642,7 +644,7 @@ let data = sharedDefaults?.data(forKey: "habits")
 | Price | Free |
 | Privacy Policy URL | `https://lauer3912.github.io/ios-{AppName}/docs/PrivacyPolicy.html` |
 
-### 7.3 App 隐私（全部"否"）
+### 8.3 App 隐私（全部"否"）
 
 - 健康/健身 ❌ | 位置 ❌ | 联系信息 ❌ | 标识用户 ❌
 - 浏览历史 ❌ | 购买行为 ❌ | 崩溃日志 ❌ | 性能数据 ❌ | 广告 ❌
@@ -1019,9 +1021,9 @@ targets:
 
 ---
 
-## 第八阶段：App Store Connect 填写与提交审核
+## 第九阶段：App Store Connect 填写与提交审核
 
-### 8.1 提交审核前的准备工作
+### 9.1 提交审核前的准备工作
 
 **所有文本必须英文，包括：**
 - App 描述
@@ -1037,11 +1039,11 @@ targets:
 
 **所有描述用纯 ASCII 字符**，破折号 `--` 代替 emoji bullet
 
-### 8.2 App Store Connect 填写清单
+### 9.2 App Store Connect 填写清单
 
 > 以中文版 App Store Connect 为例
 
-#### 第一步：创建 App（或选择已有）
+#### 第四步：创建 App（或选择已有）
 
 1. 登录 https://appstoreconnect.apple.com
 2. **"我的 App"** → **"+"** → **"新建 App"**
@@ -1055,7 +1057,7 @@ targets:
 | Bundle ID | 选择对应的 Bundle ID（如 `com.ggsheng.{AppName}`）|
 | SKU | `{AppName}-100`（随便填，唯一即可）|
 
-#### 第二步：App 隐私（左菜单）
+#### 第五步：App 隐私（左菜单）
 
 **必须全部选择"否"：**
 
@@ -1079,7 +1081,7 @@ targets:
 
 ⚠️ **必须点"存储"按钮**
 
-#### 第三步：定价与范围（左菜单）
+#### 第六步：定价与范围（左菜单）
 
 | 字段 | 内容 |
 |------|------|
@@ -1088,7 +1090,7 @@ targets:
 
 ⚠️ **必须点"存储"按钮**
 
-#### 第四步：App Store 信息（左菜单）
+#### 第七步：App Store 信息（左菜单）
 
 逐项填写：
 
@@ -1152,31 +1154,29 @@ focus timer, productivity, focus, concentration, study, work
 
 ⚠️ **必须点"存储"按钮**
 
-#### 第五步：App Store 截图（左菜单）
+#### 第八步：App Store 截图（左菜单）
 
 **必需尺寸（2024年起）：**
 
 | 设备 | 尺寸（像素）| 方向 | 最少数量 |
 |------|-----------|------|---------|
-| iPhone 6.9" | 1320×2868 或 2796×1296 | 竖 / 横 | 3 张（建议 3-5 张）|
-| iPhone 6.5" | 1284×2778 或 2778×1284 | 竖 / 横 | 3 张 |
-| iPhone 6.3" | 1206×2622 或 2556x1179 | 竖 / 横 | 3 张 |
-| iPad 12.9" | 2064×2752 或 2752×2064 | 竖 / 横 | 3 张 |
+| iPhone 6.9" | 1290×2796 或 2796×1290 | 竖 / 横 | 5 张 |
+| iPad 12.9" | 2048×2732 或 2732×2048 | 竖 / 横 | 5 张 |
 
 **操作：** 点击每个尺寸下方的 **"+"** 按钮，上传截图文件
 
-#### 第六步：Build（左菜单）
+#### 第九步：Build（左菜单）
 
 选择最新上传的 Build（通常在最上面）
 
-#### 第七步：审核信息（左菜单）
+#### 第十步：审核信息（左菜单）
 
 | 字段 | 填写内容 |
 |------|---------|
 | 登录信息 | **否**（不需要账号）|
 | 备注 | （留空）|
 
-#### 第八步：出口合规（左菜单）
+#### 第十一步：出口合规（左菜单）
 
 > **如果 Info.plist 已配置 `ITSAppUsesNonExemptEncryption = NO`，此步骤会自动跳过。**
 
@@ -1184,52 +1184,28 @@ focus timer, productivity, focus, concentration, study, work
 - 问：你的 App 是否使用了加密？
 - 答：**否**
 
-### 8.3 提交审核
+### 9.3 提交审核
 
 确认所有必填项后：
 1. 点左侧顶部或底部的 **"添加至审核"** / **"提交以供审核"**
 2. 确认信息 → 点 **"提交"**
 
-### 8.4 常见报错
+### 9.4 常见报错
 
 | 错误信息 | 原因 | 解决 |
 |---------|------|------|
 | "必须提供 App 隐私信息" | App 隐私未点"存储" | 返回 App 隐私页面，点"存储" |
 | "必须选择主要类别" | 类别未选 | App Store 信息 → 类别 → 选 Productivity |
 | "名称已被使用" | App Store 名称被占 | 换名称，或用策略一处理 |
-| "截图尺寸不对" | 尺寸不符合要求 | 按 8.2 节尺寸要求重新截图 |
+| "截图尺寸不对" | 尺寸不符合要求 | 按 6.1 节尺寸要求重新截图 |
 | "描述包含禁止词汇" | 用了 Pomodoro 等词 | 移除并替换为替代词 |
 
-### 8.5 提交后
+### 9.5 提交后
 
 - 状态变为 **"正在等待审核"** / **"Waiting for Review"**
 - 首次审核通常 **7-14 个工作日**
 - 期间可在 App Store Connect 查看状态变化
 - 审核被拒：邮件通知具体原因，按原因修改后重新提交
 
-### 8.6 参考已集成到对应阶段
-
-**Info.plist 预配置 → 详见第四阶段 4.1 节**（含出口合规 + 英文权限描述）
-
-**截图尺寸 → 详见第五阶段 5.4 节**
-
----
-
-### 8.7 实际案例参考
-
-**JustZenGo 提交记录：**
-
-| 项目 | 值 |
-|------|-----|
-| App Store 名称 | JustZenGo |
-| Bundle ID | com.ggsheng.JustZen |
-| 定价 | $9.99（应用内购买 $9.99/year）|
-| 隐私政策 | https://lauer3912.github.io/ios-JustZenGo/docs/PrivacyPolicy.html |
-| 类别 | Productivity / 效率 |
-| 年龄分级 | 4+ |
-| 出口合规 | ITSAppUsesNonExemptEncryption = NO（已预配置）|
-| 登录信息 | 否 |
-| 禁用词 | 禁止 Pomodoro、heatmap、emoji |
-| 支持 URL | https://github.com/lauer3912/ios-JustZenGo |
-| 版权 | Copyright © 2026 ZhiFeng Sun |
-| 截图 | iPhone 6.9" (1320×2868) x5 + iPad 12.9" (2064×2752) x5 |
+> **实际案例参考（JustZenGo）：** App Store 名称 JustZenGo / Bundle ID com.ggsheng.JustZen / 定价 $9.99 / 隐私政策 https://lauer3912.github.io/ios-JustZenGo/docs/PrivacyPolicy.html / 类别 Productivity / 年龄分级 4+ / 出口合规已预配置 / 登录信息否 / 禁用 Pomodoro、heatmap、emoji / 版权 Copyright © 2026 ZhiFeng Sun
+| 截图 | iPhone 6.9" (1290×2796) x5 + iPad 12.9" (2048×2732) x5 |
