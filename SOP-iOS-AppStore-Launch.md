@@ -1,5 +1,62 @@
 # 从零创建 iOS App 项目完整指南
 
+> ⚠️ **强制规则**：
+> - 所有源码变更必须经过 Claude Code 审查并修复后才能提交
+> - **所有产物必须纳入 Git 管理**：源代码、设计方案（Sketch/Figma）、App 说明文档、图标方案（源文件 + 生成的所有尺寸）必须及时 commit 和 push
+> - 禁止在本地留存未提交的产物
+> - **开发前必须审核**：图标方案和 App UI 设计方案必须先审核通过，才能开始编写代码
+> - **目标用户**：所有 App 主要面向欧美客户，设计必须符合西方审美和文化习惯
+
+## 第零阶段：设计审核（必须先完成）
+
+> ⚠️ **必须先完成设计审核，才能进入开发阶段**。未审核的设计直接开发会导致返工。
+
+### 0.1 图标方案审核
+
+1. **生成图标方案**：使用 §4.5 的 prompt 模板生成 1024×1024 PNG 源图
+2. **提交审核**：将源图存入 `AppStore/Assets/Icon/` 并 commit，通知审核人员
+3. **审核内容**：
+   - 设计风格是否符合目标用户（欧美）审美
+   - 是否符合 Apple Design Awards 质量标准
+   - 是否符合 §4.5 趋势要求
+   - 是否符合配色规范
+4. **审核通过标准**：至少获得 1 个明确 approved 意见
+5. **通过后**：使用 `ios-app-icon-generator` skill 生成全部 19 个尺寸
+
+### 0.2 App UI 设计方案审核
+
+1. **输出设计方案**：使用 Sketch/Figma/PDF 输出主要页面设计稿（至少包含：首页、详情页、设置页）
+2. **提交审核**：将设计稿存入 `AppStore/Assets/UI/` 并 commit
+3. **审核内容**：
+   - 界面设计风格是否与图标风格统一
+   - 是否符合 §1.3 Apple Design Awards 级别要求
+   - 交互流程是否符合 iOS 原生设计模式
+   - 是否符合西方用户习惯
+4. **审核通过标准**：至少获得 1 个明确 approved 意见
+5. **通过后**：才能进入第三阶段开始编写代码
+
+### 0.3 审核流程
+
+```
+┌─────────────────────────────────────────────────────┐
+│  阶段 1：图标设计 → 提交 Git → 等待审核              │
+└─────────────────┬───────────────────────────────────┘
+                  ▼
+┌─────────────────────────────────────────────────────┐
+│  ✅ 图标审核通过 → 阶段 2                            │
+│  ❌ 图标审核拒绝 → 修改后重新提交                    │
+└─────────────────┬───────────────────────────────────┘
+                  ▼
+┌─────────────────────────────────────────────────────┐
+│  阶段 2：UI 设计 → 提交 Git → 等待审核              │
+└─────────────────┬───────────────────────────────────┘
+                  ▼
+┌─────────────────────────────────────────────────────┐
+│  ✅ UI 审核通过 → 进入第一阶段（开发）              │
+│  ❌ UI 审核拒绝 → 修改后重新提交                    │
+└─────────────────────────────────────────────────────┘
+```
+
 ## 第一阶段：概念与命名
 
 ### 1.1 提前核查 App Store 名称
@@ -19,6 +76,190 @@ curl -s "https://itunes.apple.com/search?term=你的名字&entity=software&limit
 
 **规则：Bundle ID 一旦上传不能改，App Store 名称随时可换。**
 
+### 1.3 App 界面设计规范（必读）
+
+**App 界面设计风格必须与图标设计规范一致**，详见 §4.5。设计质量标准参照 **Apple Design Awards** 级别。
+
+> ⚠️ **目标用户明确**：所有 App 主要面向欧美客户。图标和 UI 设计必须符合西方审美，避免中式审美元素（红金配色、生肖、太极等亚洲特有元素）。
+
+#### 设计质量标准参照体系
+
+| 标准/奖项 | 适用场景 | 说明 |
+|---------|---------|------|
+| **Apple Design Awards** | 所有 iOS App | Apple 官方顶级设计奖项，金标准 |
+| **Apple HIG** | 所有 iOS App | Human Interface Guidelines，审核必查 |
+| **Dribbble** | 视觉灵感 | 全球设计师作品集，搜索 iOS/App 设计趋势 |
+| **Mobbin** | iOS 原生界面模式 | 收录大量知名 App 的真实界面截图 |
+| **WWDC Design Sessions** | 设计理念与实践 | Apple 开发者大会设计相关演讲（每年 WWDC） |
+| **Red Dot Design Award** | 交互/产品设计 | 国际权威工业设计奖，含 App 品类 |
+| **iF Design Award** | 数字产品设计 | 另一国际权威设计奖项，数字产品类别 |
+
+> **推荐实践**：先看 Apple HIG 理解基础规范，再从 Dribbble/Mobbin 获取视觉灵感，最后用 Apple Design Awards 获奖作品作为质量标杆。
+
+#### 设计质量标准（Apple Design Awards 级别）
+
+| 维度 | 要求 | 说明 |
+|------|------|------|
+| **视觉精致度** | 像素级完美，无锯齿、无模糊 | 所有图标、插图、装饰元素必须是矢量或高清 raster |
+| **动效设计** | 流畅、自然、有意义 | 过渡动画 300-500ms，使用 spring/ ease-out 曲线 |
+| **颜色系统** | 统一配色板，≤5 个核心色 | 深色背景 + 渐变辅助色，详见 §4.5 配色方案 |
+| ** typography** | SF Pro Display/Text 系统字体 | 标题 20-34pt，正文 15-17pt，标注 11-13pt |
+| **层次与间距** | 8pt 网格系统 | 边距/间距为 8 的倍数（8/16/24/32/40） |
+| **一致性** | 全 App 统一设计语言 | 图标风格 → 按钮 → 卡片 → 页面层级保持一致 |
+
+#### iOS 原生设计模式（必须遵循）
+
+| 场景 | 正确写法 | 错误写法 |
+|------|---------|---------|
+| 导航 | TabView（底部标签栏）| 自定义侧面抽屉 |
+| 列表 | List + ForEach | ScrollView + VStack（性能差）|
+| 设置页 | Form + Section | 散落的无分组设置项 |
+| 弹窗 | sheet/alert/confirmationDialog | 非原生的自定义弹窗 |
+| 加载 | ProgressView/sheet | 自定义 GIF 或粗糙的 loading 动画 |
+| 空状态 | ContentView 条件渲染 + 插图 | 空白屏幕或占位图 |
+| Tab 切换 | `.tabItem {}` +  SF Symbol | 文字 label 或自定义图标按钮 |
+
+#### 动效与转场规范
+
+```
+原则：动效服务于信息传达，不为装饰
+
+转场时长：
+  - 微交互（按钮点击）: 100-150ms
+  - 页面元素出现: 300-400ms
+  - 全屏转场: 350-500ms
+
+曲线：
+  - 强调/出现: spring(response: 0.5, dampingFraction: 0.8)
+  - 消失/退回: easeOut
+  - 共享元素: matchedGeometryEffect
+
+禁止：
+  - 过度弹跳（overshoot > 1.1）
+  - 长时间旋转/加载动画
+  - 与内容无关的随机漂浮元素
+```
+
+#### 深色模式优先设计
+
+```
+背景层级（深色模式）：
+  - Level 1（最底层）: #000000 或 #0F0F14
+  - Level 2（卡片）: #1C1C1E（80% 不透明度）
+  - Level 3（弹窗）: #2C2C2E（90% 不透明度）
+  - 高亮/选中: #48484A
+
+语义色：
+  - Primary: #9B8FE8（紫罗兰，用于主要操作）
+  - Secondary: #6EE7B7（薄荷绿，用于成功/完成）
+  - Accent: #FCD34D（琥珀金，用于强调/徽章）
+  - Destructive: #EF4444（红色，用于删除/警告）
+```
+
+#### 常见扣分项（App Store 审核重点）
+
+| 扣分项 | 问题描述 | 正确做法 |
+|--------|---------|---------|
+| 粗糙的自定义 UI | 用 `UIViewRepresentable` 包 UIKit 自定义控件导致风格割裂 | 尽量用 SwiftUI 原生控件 |
+| 不一致的圆角 | 有的 12pt，有的 20pt | 统一使用 `.cornerRadius(12)` 或 `.cornerRadius(16)` |
+| 文字对比度不足 | 灰色文字在深色背景上对比度 < 4.5:1 | 确保文字与背景对比度 ≥ 7:1（WCAG AA）|
+| 点击区域太小 | 按钮高度 < 44pt（Apple HIG 最低标准）| 所有可点击元素 ≥ 44×44pt |
+| 奇怪的字体回退 | 系统字体加载失败后显示默认 serif | 不要自定义字体文件，使用 SF Pro |
+| 截图与 App 实际 UI 不符 | 截图经过过度美化 | 截图必须是 App 真实运行截图，不可修图 |
+
+#### 无障碍功能要求（欧美市场强制）
+
+> ⚠️ 欧美用户高度重视无障碍功能，Apple 审核也会检查。**所有功能必须支持无障碍**。
+
+| 要求 | 实现方式 |
+|------|---------|
+| VoiceOver 标签 | 所有可交互元素必须设置 `accessibilityLabel` |
+| Dynamic Type | 使用 `.font(.body)` 等相对字号，禁止固定 pt 值 |
+| 颜色对比度 | 文字与背景对比度 ≥ 7:1（WCAG AA）|
+| 点击区域 | 所有可点击元素 ≥ 44×44pt |
+| 图像描述 | 图片需设置 `accessibilityLabel("描述文字")` |
+| 无障碍测试 | VoiceOver 下所有功能必须可访问 |
+
+**示例：**
+```swift
+// ✅ 正确
+Button(action: { self.startTimer() }) {
+    Image(systemName: "play.fill")
+}
+.accessibilityLabel("Start focus timer")
+.accessibilityHint("Double tap to start the focus session")
+
+// ❌ 错误 - 没有 Label，VoiceOver 无法朗读
+Button(action: { self.startTimer() }) {
+    Image(systemName: "play.fill")
+}
+```
+
+```swift
+// ✅ 正确 - 支持 Dynamic Type
+Text("Focus Session")
+    .font(.title2)
+
+// ❌ 错误 - 固定字号，不支持缩放
+Text("Focus Session")
+    .font(.system(size: 24))
+```
+
+> ⚠️ **App 界面风格必须与图标风格统一**。如果图标采用了 Glassmorphism + Rich Gradients 风格，App 内所有页面也应保持一致的设计语言（深色背景、渐变色、模糊效果等）。风格不统一会严重影响 App Store 审核评分和用户留存。
+
+#### 离线功能要求
+
+> ⚠️ 所有 App 必须支持完全离线使用（Offline First），禁止强制要求网络连接。
+
+| 要求 | 实现方式 |
+|------|---------|
+| 本地数据存储 | 所有数据必须本地持久化（UserDefaults/SQLite） |
+| 离线状态 UI | 断网时显示正常功能，不显示网络错误 |
+| 启动无网络依赖 | App 启动不检查网络，不弹网络错误 |
+| 数据同步（可选）| 如果有云同步，必须支持离线优先 |
+
+**验证方法**：
+1. 飞行模式下启动 App，必须正常显示首页
+2. 所有核心功能在飞行模式下必须可用
+
+### 1.4 App 基础功能数量要求
+
+**App 起步功能数量不能低于 60 个。**
+
+| App 类型 | 功能数量要求 | 说明 |
+|---------|-------------|------|
+| 效率/生产力类 | ≥60 个 | 番茄钟、待办、日程、数据统计等 |
+| 健康/健身类 | ≥60 个 | 追踪、记录、提醒、报告等 |
+| 金融/财务类 | ≥60 个 | 记账、预算、报表、分析等 |
+| 社交/创意类 | ≥60 个 | 互动、内容、分享、反馈等 |
+
+> ⚠️ **功能数量不足会被 App Store 审核拒绝**。Apple 要求 App 必须提供足够的实用价值，"只是一个简单计时器"或"只是一个待办列表"会因为功能单薄被拒。建议在开发前列出功能清单，确保核心功能达到 60 个以上再提交。
+
+**必须输出功能清单文档**：`Docs/FeatureList.md`，格式：
+
+```markdown
+# {AppName} 功能清单
+
+## 核心功能（≥60）
+| # | 功能名称 | 描述 | 优先级 |
+|---|---------|------|--------|
+| 1 | Focus Timer | 番茄工作法计时器 | P0 |
+| 2 | Session History | 历史记录查看 | P0 |
+| ... | ... | ... | ... |
+
+## 辅助功能
+| # | 功能名称 | 描述 | 优先级 |
+|---|---------|------|--------|
+| 51 | Settings | 设置页面 | P1 |
+...
+```
+
+**规则**：
+- 必须在开发前完成并提交 Git
+- 标记 P0（核心功能）和 P1（辅助功能）
+- 提交前必须审核确认功能数量 ≥60
+- 开发过程中新增功能必须同步更新此文档
+
 ---
 
 ## 第二阶段：创建项目目录结构
@@ -28,10 +269,17 @@ mkdir -p ios-{AppName}/{AppName,AppNameWidget,AppNameTests,AppNameUITests,AppSto
 mkdir -p ios-{AppName}/AppName/{App,Models,Views,ViewModels}
 mkdir -p ios-{AppName}/AppName/Assets.xcassets/{AppIcon.appiconset,AccentColor.colorset}
 mkdir -p ios-{AppName}/AppNameWidget/Assets.xcassets
-mkdir -p ios-{AppName}/AppStore/Screenshots
+mkdir -p ios-{AppName}/AppStore/{Screenshots,AppPreview,Listing.md}
+mkdir -p ios-{AppName}/AppStore/Assets/{Icon,UI}  # 图标源文件、设计文件
+mkdir -p ios-{AppName}/Docs
 ```
 
 **文件夹名** = 项目中文档和代码引用的实际路径，**必须与 project.yml 的 `path:` 一致**。
+**AppStore/Assets/Icon** = App 图标源文件（1024×1024 PNG 等）
+**AppStore/Assets/UI** = 界面设计稿（Sketch/Figma/PDF）
+**Docs** = 项目文档目录，详细记录项目变更、功能等相关信息
+
+> ⚠️ **所有产物必须纳入 Git**：AppStore/Assets/ 下的设计文件、图标源文件、Docs/ 下的文档都必须 commit，**不许本地留存未提交的设计产物**。
 
 ---
 
@@ -105,12 +353,14 @@ targets:
     entitlements:
       path: {AppName}/{AppName}.entitlements
     dependencies:
-      - target: {AppName}Widget          # ← Widget extension
-        embed: true                       # ← 自动嵌入主 App
+      - target: {AppName}Widget          # ← 可选：如果 App 不需要 Widget，删除此行及 Widget target
+        embed: true                       # ← 自动嵌入主 App（无需 Widget 时删除整个 dependency 块）
 
 # ══════════════════════════════════════════════════════════════
-# Target 2: Widget Extension
+# Target 2: Widget Extension（可选，非必需）
 # ══════════════════════════════════════════════════════════════
+# ⚠️ 注意：Widget 为可选项。如果 App 不需要 Widget（如噪音检测、饮水追踪、抉择器等），删除此 target 及下方 dependency。
+# 删除后同步删除 {AppName}Widget/ 源码文件夹，并在主 App 的 entitlements 中移除 App Group（如果不用 Widget）。
 
   {AppName}Widget:
     type: app-extension
@@ -200,7 +450,7 @@ schemes:
     build:
       targets:
         {AppName}: all                   # 主 App
-        {AppName}Widget: all             # Widget
+        {AppName}Widget: all             # ← 可选：如果没有 Widget，删除此行
         {AppName}UITests: [test]         # UI Test
     run:
       config: Debug
@@ -313,19 +563,18 @@ settings:
             </array>
         </dict>
     </array>
-    <!-- ========== 权限描述（必须英文，禁止中文）============ -->
+    <!-- ========== 权限描述（按需启用，必须英文）============ -->
+    <!-- ⚠️ 以下权限按 App 实际需要启用，不需要的一律删除 -->
+    <!--
     <key>NSHealthShareUsageDescription</key>
-    <string>{AppName} needs to read health data to analyze your focus sessions and heart rate patterns.</string>
+    <string>{AppName} needs to read health data to provide fitness tracking features.</string>
     <key>NSHealthUpdateUsageDescription</key>
-    <string>{AppName} needs to log focus activities to the Health app.</string>
+    <string>{AppName} needs to log your activities to the Health app.</string>
     <key>NSCalendarsUsageDescription</key>
-    <string>{AppName} needs access to your calendar to view your schedule and remind you of focus sessions.</string>
-    <key>NSCalendarsFullAccessUsageDescription</key>
-    <string>{AppName} needs full calendar access to view your schedule and avoid disturbing you during meetings.</string>
+    <string>{AppName} needs access to your calendar to schedule reminders.</string>
     <key>NSUserNotificationsUsageDescription</key>
-    <string>{AppName} needs to send notifications to remind you when focus sessions start and end.</string>
-    <key>NSSiriUsageDescription</key>
-    <string>Allow Siri to start the focus timer.</string>
+    <string>{AppName} needs to send you notifications for reminders and updates.</string>
+    -->
 </dict>
 </plist>
 ```
@@ -394,7 +643,81 @@ settings:
 </plist>
 ```
 
-### 4.5 AppIcon Contents.json（标准 19 项格式）
+### 4.5 AppIcon 图标设计规范（必读）
+
+#### 🚀 当前最惊艳图标设计趋势（2024-2025）
+
+| 趋势 | 描述 | 适用场景 | 参照 |
+|------|------|---------|------|
+| Glassmorphism | 毛玻璃 + 半透明 + 高斯模糊 | 专注/创意类App | [Dribbble](https://dribbble.com/search/glassmorphism-icon) |
+| Rich Gradients | 多色渐变、渐变网格、径向渐变 | 大多数App | [Mobbin](https://mobbin.com/browse/ios/apps) |
+| Depth & Layers | 多层叠放 + 柔和阴影创造3D深度 | 生产力/工具类 | [Behance](https://www.behance.net/search/projects?search=3d+icon) |
+| Neumorphism | 柔和内外阴影，元素"挤出"表面 | 金融/商务类 | [Dribbble](https://dribbble.com/search/neumorphism-icon) |
+| Organic Shapes | 圆润blob形状、流动曲线 | 健康/社交类 | [Behance](https://www.behance.net/search/projects?search=organic+icon) |
+| 3D Realism | 微妙的3D效果 + 光源统一 | 游戏/创意类 | [Red Dot](https://www.red-dot.org/en/design/awards) |
+| Minimal Geometric | 极简几何、精确对齐、负空间 | 工具类App | [Apple HIG](https://developer.apple.com/design/human-interface-guidelines/app-icons) |
+| Dark Mode First | 深色优先优化，深色背景突出 | 所有App | [Apple Design Awards](https://developer.apple.com/design/awards/) |
+
+**推荐组合**：Rich Gradients + Depth & Layers 或 Minimal Geometric + Neumorphism
+
+#### 设计质量标准参照
+
+| 标准/奖项 | 说明 |
+|---------|------|
+| **Apple Design Awards** | Apple 官方顶级设计奖项，质量金标准 |
+| **Apple HIG - App Icons** | Human Interface Guidelines 图标章节，审核必查 |
+| **Red Dot Design Award** | 国际权威工业设计奖 |
+| **iF Design Award** | 国际权威设计奖 |
+| **Dribbble / Behance** | 全球设计师作品集，用于视觉灵感 |
+
+#### ❌ 图标设计禁忌（常见错误）
+
+| 错误 | 问题 | 正确做法 |
+|------|------|---------|
+| 4合1拼接图 | Apple 要求独立图标 | 每个 1024×1024 单个文件 |
+| 缩略图当源文件 | 放大后模糊 | 始终使用 1024×1024 源图 |
+| 忽略 Apple HIG | 审核被拒 | 遵循 HIG 设计规范 |
+| 堆叠太多效果 | 小尺寸杂乱 | 选择2-3个核心效果，克制使用 |
+| 过于写实3D | 失去可辨识度 | 保持抽象微妙，审核可能被拒 |
+
+#### ✅ 正确设计规范
+
+| 要求 | 说明 |
+|------|------|
+| 单一设计 | 每个图标是独立的统一设计，禁止拼接 |
+| 无文字 | App Store 图标不允许有文字 |
+| 无真实人脸 | 不要用相机拍摄的图片或真实人脸 |
+| 清晰可辨 | 在小尺寸（20pt）下也要清晰 |
+| 局部深度 | 使用阴影和层次感增加质感 |
+| 克制效果 | 选择2-3个趋势组合，不堆叠 |
+
+#### 趋势配色方案推荐
+
+| 方案 | 主色 | 辅助色 | 高光色 |
+|------|------|--------|--------|
+| 深空宇宙 | #0F0F14 | #6366F1 (靛蓝) | #A78BFA (紫) |
+| 极光绿洲 | #0F172A | #10B981 (翠绿) | #34D399 (薄荷) |
+| 暖阳琥珀 | #18181B | #F59E0B (琥珀) | #FCD34D (金) |
+| 活力珊瑚 | #1F2937 | #F472B6 (珊瑚粉) | #FB923C (橙) |
+
+#### 图标生成 prompt 模板
+
+```
+Create a SINGLE, stunning Apple App Store icon for "[AppName]" - [App Description].
+
+Design: [描述具体设计]
+- 1024x1024 PNG
+- Dark background (#0F0F14)
+- Colors: violet (#9B8FE8), mint (#6EE7B7), amber (#FCD34D)
+- Apple Design Awards quality
+- No text
+- Single unified design (NOT grid/composite)
+- [具体设计描述]
+```
+
+---
+
+### 4.6 AppIcon Contents.json（标准 19 项格式）
 
 > ⚠️ **重要：文件名使用 `@1x`/`@2x`/`@3x` 后缀表示 scale，Contents.json 的 `scale` 字段同步标注。**
 > 这不是重复 — `@` 后缀是文件名规范，`scale` 字段是 asset catalog 元数据。两者一致才能被 Spotlight 正确索引。
@@ -451,7 +774,7 @@ settings:
 - 删除旧格式文件（如 `Icon-1024.png`、`Icon-76.png`、`Icon-76-2x.png`），确保恰好 19 个文件
 
 
-### 4.6 AccentColor Contents.json
+### 4.7 AccentColor Contents.json
 
 ```json
 {
@@ -516,10 +839,18 @@ grep 'PRODUCT_BUNDLE_IDENTIFIER' {AppName}.xcodeproj/project.pbxproj
 ```
 ┌─────────────────────────────────────────────────────┐
 │  本地修改 project.yml / 源码 / 资源文件              │
+│  同步更新 AppStore/ 目录（截图、设计文档等）         │
 └─────────────────┬───────────────────────────────────┘
                   ▼
 ┌─────────────────────────────────────────────────────┐
-│  git add → git commit → git push origin main       │
+│  Claude Code 审查：分析源码，修复所有问题           │
+│  必须重复执行直到无问题为止                        │
+│  检查项：语法错误、逻辑问题、API 误用、内存泄漏   │
+└─────────────────┬───────────────────────────────────┘
+                  ▼
+┌─────────────────────────────────────────────────────┐
+│  git add -A → git commit → git push origin main    │
+│  ⚠️ 必须包含所有变更：源码、设计文件、文档、图标   │
 └─────────────────┬───────────────────────────────────┘
                   ▼
 ┌─────────────────────────────────────────────────────┐
@@ -532,13 +863,21 @@ grep 'PRODUCT_BUNDLE_IDENTIFIER' {AppName}.xcodeproj/project.pbxproj
 └─────────────────┬───────────────────────────────────┘
                   ▼
 ┌─────────────────────────────────────────────────────┐
+│  Claude Code 再次审查 MacinCloud 构建输出           │
+│  如有错误：修复后重新 push → pull → build           │
+└─────────────────┬───────────────────────────────────┘
+                  ▼
+┌─────────────────────────────────────────────────────┐
 │  ✅ BUILD SUCCEEDED → 打开 Xcode → Archive         │
 └─────────────────────────────────────────────────────┘
 ```
 
----
-
-
+> ⚠️ **Claude Code 审查要求**：
+> - 每次代码变更后，必须使用 Claude Code 对源码进行审查
+> - 使用 `/review` 或类似指令进行全面检查
+> - 发现问题立即修复，重复审查直到没有问题
+> - **禁止跳过审查直接提交**：未审查的代码可能导致构建失败或功能缺陷
+> - 审查重点：语法错误、逻辑问题、API 误用、内存泄漏、force unwrap、可选类型处理
 
 ---
 
@@ -546,42 +885,56 @@ grep 'PRODUCT_BUNDLE_IDENTIFIER' {AppName}.xcodeproj/project.pbxproj
 
 ### 6.0 截图工作流概述
 
-1. **创建专用 XCUITest 文件**（如 `iPadScreenshotTests.swift`），专门用于截图
+1. **创建专用 XCUITest 文件**（`ScreenshotTests.swift`），专门用于截图
 2. **选择正确尺寸的模拟器**（必须与 App Store 要求匹配）
 3. **运行测试并截图**（保存到 `/tmp/` 目录）
-4. **验证截图尺寸**（使用 Python 检查 PNG 实际尺寸）
-5. **下载截图到本地**（从 MacinCloud 通过 scp 下载）
+4. **验证截图内容不同**（使用 MD5 哈希确保每张截图内容不同）
+5. **复制到 AppStoreScreenshots 目录**（按分辨率子目录分类，如 `iPhone_69_1320x2868/`）
+6. **提交到 GitHub**
+
+> ⚠️ **常见问题：所有截图都是首页** — 这是最容易犯的错误。Tab 切换代码写错、UI 定位失败、等待时间不足等原因，都会导致所有截图都是首页。**必须用 MD5 哈希 + 肉眼检查双重验证**，确保每张截图确实不同页面。
 
 ### 6.1 App Store 截图尺寸要求（必须符合最新 Apple 规范）
 
 > Apple 随时可能更新要求，提交前以 App Store Connect 页面显示的尺寸为准。
 
-**必需尺寸（5 个设备，每个至少 3 张，共最少 15 张）：**
+**必需尺寸（5 个上传区域，每个最多 10 张截图）：**
 
-| 设备 | 尺寸（像素）| 方向 | 最少数量 | 推荐模拟器 |
-|------|-----------|------|---------|------------|
-| iPhone 6.9" (16 Pro Max) | 1320×2868 或 2868×1320 | 竖 / 横 | 3 张 | iPhone 16 Pro Max |
-| iPhone 6.7" (15 Pro Max) | 1290×2796 或 2796×1290 | 竖 / 横 | 3 张 | iPhone 15 Pro Max |
-| iPhone 6.5" (16 Plus) | 1290×2796 或 2796×1290 | 竖 / 横 | 3 张 | iPhone 16 Plus |
-| iPhone 6.1" (16/15/14) | 1170×2532 或 2532×1170 | 竖 / 横 | 3 张 | iPhone 16 |
-| iPad 12.9" | 2048×2732 或 2732×2048 | 竖 / 横 | 3 张 | iPad Pro 13" (M4) |
+| 上传区域 | 接受分辨率（px）| 方向 | 推荐模拟器 |
+|---------|----------------|------|-----------|
+| iPhone 6.9"（合并 6.5"/6.7"/6.9"）| 1260×2736, 2736×1260, 1320×2868, 2868×1320, 1290×2796, 2796×1290 | 竖 / 横 | iPhone 16 Pro Max |
+| iPhone 6.5" | 1242×2688, 2688×1242, 1284×2778, 2778×1284 | 竖 / 横 | iPhone 14 Plus |
+| iPhone 6.3" | 1206×2622, 2622×1206, 1179×2556, 2556×1179 | 竖 / 横 | iPhone 16 Pro |
+| iPad 13" | 2064×2752, 2752×2064, 2048×2732, 2732×2048 | 竖 / 横 | iPad Pro 13" (M4) |
+| iPad 11" | 1668×2420, 2420×1668, 1668×2388, 2388×1668, 1640×2360, 2360×1640, 2266×1488, 1488×2266 | 竖 / 横 | iPad Pro 11" (M4) |
 
-> ⚠️ **必须覆盖全部 5 个设备尺寸，每个至少 3 张。** App Store Connect 对每个设备都要求至少 3 张截图，少一个设备都会被拒。
+> ⚠️ **每个上传区域最多 10 张截图。** 同一区域内的不同分辨率截图可混用（如 6.9" 区域可用 iPhone 16 Pro Max 截的 1320×2868）。
 >
-> ⚠️ **严禁 resize / upscale / 拉伸 截图。** 截图必须从对应尺寸的模拟器或真机实截。resize 会导致 UI 元素变形、模糊，Apple 审核人员会识别并拒绝。
->
-> ⚠️ **模拟器截图尺寸取决于设备本身，与 App Store 要求可能有微小差异（如 iPad 截图 2064×2752 vs 要求 2048×2732）。以实际运行结果为准。**
+> ⚠️ **严禁 resize / upscale / 拉伸 截图。** 截图必须从对应尺寸的模拟器或真机实截。
 >
 > 提交前以 App Store Connect 页面上显示的要求尺寸为准。
 
 ### 6.2 XCUITest 截图完整流程
 
-#### Step 1: 查看可用模拟器
+#### Step 1: 查看可用模拟器（找 Booted 的）
 ```bash
-xcrun simctl list devices available | grep -E 'iPhone|iPad'
+xcrun simctl list devices booted | grep -E 'iPhone|iPad'
 ```
 
+**注意：** 模拟器必须先 boot 才能正确截图。使用 `xcrun simctl boot 'iPhone 16 Pro Max'` 启动。
+
 #### Step 2: 创建专用截图测试文件
+
+**⚠️ 模板说明**：以下模板假设 App 有 5 个 Tab（Home/History/Stats/Achievements/Settings）。根据实际 App 的 Tab 数量调整测试函数数量和命名。
+
+**关键规则：**
+- **iPhone**：使用 `app.tabBars.buttons.element(boundBy: N).tap()` 切换标签页
+- **iPad**：使用 `app.buttons["History"].firstMatch.tap()` 按标签名称切换（**不要用坐标点击，在 iPad 上无效**）
+- 每个标签页切换后等待 `usleep(1500000)`（1.5秒）确保页面渲染完成
+- 必须使用 `--uitesting` launch argument 启动 App
+
+> ⚠️ **警告：Tab 切换失败 = 所有截图都是首页** — 测试运行通过不等于截图正确！必须用 §Step 5 的 MD5 + 肉眼检查验证每张截图真的是不同页面。
+
 ```swift
 import XCTest
 
@@ -590,50 +943,250 @@ final class ScreenshotTests: XCTestCase {
     var app: XCUIApplication!
 
     override func setUpWithError() throws {
-        continueAfterFailure = true
+        continueAfterFailure = false
         app = XCUIApplication()
+        app.launchArguments = ["--uitesting"]  // 关键：启用 UI 测试模式
         app.launch()
+        usleep(1000000)  // 等待 App 完全启动
     }
 
     override func tearDownWithError() throws {
-        app = nil
+        app.terminate()
     }
 
-    func ss(_ name: String) {
+    // MARK: - 截图辅助函数
+
+    func capture(_ name: String) {
+        let path = "/tmp/\(name).png"
         let data = app.windows.firstMatch.screenshot().pngRepresentation
-        try? data.write(to: URL(fileURLWithPath: "/tmp/\(name).png"))
+        try? data.write(to: URL(fileURLWithPath: path))
     }
 
-    func testDashboard() throws {
-        ss("01_dashboard")
+    // MARK: - iPhone 截图（6.9" - 1320×2868）
+    // 模拟器：iPhone 16 Pro Max
+
+    func testiPhone_69_01_Home() {
+        capture("iPhone_69_portrait_01_Home")
     }
 
-    func testTransactions() throws {
-        if app.tabBars.buttons["Transactions"].exists {
-            app.tabBars.buttons["Transactions"].tap()
+    func testiPhone_69_02_History() {
+        if app.tabBars.buttons.count > 1 {
+            app.tabBars.buttons.element(boundBy: 1).tap()
+            usleep(1500000)
         }
-        ss("02_transactions")
+        capture("iPhone_69_portrait_02_History")
     }
 
-    func testBudget() throws {
-        if app.tabBars.buttons["Budget"].exists {
-            app.tabBars.buttons["Budget"].tap()
+    func testiPhone_69_03_Stats() {
+        if app.tabBars.buttons.count > 2 {
+            app.tabBars.buttons.element(boundBy: 2).tap()
+            usleep(1500000)
         }
-        ss("03_budget")
+        capture("iPhone_69_portrait_03_Stats")
     }
 
-    func testGoals() throws {
-        if app.tabBars.buttons["Goals"].exists {
-            app.tabBars.buttons["Goals"].tap()
+    func testiPhone_69_04_Achievements() {
+        if app.tabBars.buttons.count > 3 {
+            app.tabBars.buttons.element(boundBy: 3).tap()
+            usleep(1500000)
         }
-        ss("04_goals")
+        capture("iPhone_69_portrait_04_Achievements")
     }
 
-    func testSettings() throws {
-        if app.tabBars.buttons["Settings"].exists {
-            app.tabBars.buttons["Settings"].tap()
+    func testiPhone_69_05_Settings() {
+        if app.tabBars.buttons.count > 4 {
+            app.tabBars.buttons.element(boundBy: 4).tap()
+            usleep(1500000)
         }
-        ss("05_settings")
+        capture("iPhone_69_portrait_05_Settings")
+    }
+
+    // MARK: - iPhone 截图（6.5" - 1284×2778）
+    // 模拟器：iPhone 14 Plus
+
+    func testiPhone_65_01_Home() {
+        capture("iPhone_65_portrait_01_Home")
+    }
+
+    func testiPhone_65_02_History() {
+        if app.tabBars.buttons.count > 1 {
+            app.tabBars.buttons.element(boundBy: 1).tap()
+            usleep(1500000)
+        }
+        capture("iPhone_65_portrait_02_History")
+    }
+
+    func testiPhone_65_03_Stats() {
+        if app.tabBars.buttons.count > 2 {
+            app.tabBars.buttons.element(boundBy: 2).tap()
+            usleep(1500000)
+        }
+        capture("iPhone_65_portrait_03_Stats")
+    }
+
+    func testiPhone_65_04_Achievements() {
+        if app.tabBars.buttons.count > 3 {
+            app.tabBars.buttons.element(boundBy: 3).tap()
+            usleep(1500000)
+        }
+        capture("iPhone_65_portrait_04_Achievements")
+    }
+
+    func testiPhone_65_05_Settings() {
+        if app.tabBars.buttons.count > 4 {
+            app.tabBars.buttons.element(boundBy: 4).tap()
+            usleep(1500000)
+        }
+        capture("iPhone_65_portrait_05_Settings")
+    }
+
+    // MARK: - iPhone 截图（6.3" - 1206×2622）
+    // 模拟器：iPhone 16 Pro
+
+    func testiPhone_63_01_Home() {
+        capture("iPhone_63_portrait_01_Home")
+    }
+
+    func testiPhone_63_02_History() {
+        if app.tabBars.buttons.count > 1 {
+            app.tabBars.buttons.element(boundBy: 1).tap()
+            usleep(1500000)
+        }
+        capture("iPhone_63_portrait_02_History")
+    }
+
+    func testiPhone_63_03_Stats() {
+        if app.tabBars.buttons.count > 2 {
+            app.tabBars.buttons.element(boundBy: 2).tap()
+            usleep(1500000)
+        }
+        capture("iPhone_63_portrait_03_Stats")
+    }
+
+    func testiPhone_63_04_Achievements() {
+        if app.tabBars.buttons.count > 3 {
+            app.tabBars.buttons.element(boundBy: 3).tap()
+            usleep(1500000)
+        }
+        capture("iPhone_63_portrait_04_Achievements")
+    }
+
+    func testiPhone_63_05_Settings() {
+        if app.tabBars.buttons.count > 4 {
+            app.tabBars.buttons.element(boundBy: 4).tap()
+            usleep(1500000)
+        }
+        capture("iPhone_63_portrait_05_Settings")
+    }
+
+    // MARK: - iPad 截图（13" - 2048×2732）
+    // 模拟器：iPad Pro 13-inch (M4)
+
+    func testiPad_13_01_Home() {
+        capture("iPad_13_portrait_01_Home")
+    }
+
+    func testiPad_13_02_History() {
+        let tabBar = app.tabBars.firstMatch
+        if tabBar.exists && tabBar.buttons.count > 1 {
+            tabBar.buttons.element(boundBy: 1).tap()
+            usleep(1500000)
+        } else if app.buttons["History"].exists {
+            app.buttons["History"].firstMatch.tap()
+            usleep(1500000)
+        }
+        capture("iPad_13_portrait_02_History")
+    }
+
+    func testiPad_13_03_Stats() {
+        let tabBar = app.tabBars.firstMatch
+        if tabBar.exists && tabBar.buttons.count > 2 {
+            tabBar.buttons.element(boundBy: 2).tap()
+            usleep(1500000)
+        } else if app.buttons["Stats"].exists {
+            app.buttons["Stats"].firstMatch.tap()
+            usleep(1500000)
+        }
+        capture("iPad_13_portrait_03_Stats")
+    }
+
+    func testiPad_13_04_Achievements() {
+        let tabBar = app.tabBars.firstMatch
+        if tabBar.exists && tabBar.buttons.count > 3 {
+            tabBar.buttons.element(boundBy: 3).tap()
+            usleep(1500000)
+        } else if app.buttons["Badges"].exists {
+            app.buttons["Badges"].firstMatch.tap()
+            usleep(1500000)
+        }
+        capture("iPad_13_portrait_04_Achievements")
+    }
+
+    func testiPad_13_05_Settings() {
+        let tabBar = app.tabBars.firstMatch
+        if tabBar.exists && tabBar.buttons.count > 4 {
+            tabBar.buttons.element(boundBy: 4).tap()
+            usleep(1500000)
+        } else if app.buttons["Settings"].exists {
+            app.buttons["Settings"].firstMatch.tap()
+            usleep(1500000)
+        }
+        capture("iPad_13_portrait_05_Settings")
+    }
+
+    // MARK: - iPad 截图（11" - 1668×2388）
+    // 模拟器：iPad Pro 11-inch (M4)
+
+    func testiPad_11_01_Home() {
+        capture("iPad_11_portrait_01_Home")
+    }
+
+    func testiPad_11_02_History() {
+        let tabBar = app.tabBars.firstMatch
+        if tabBar.exists && tabBar.buttons.count > 1 {
+            tabBar.buttons.element(boundBy: 1).tap()
+            usleep(1500000)
+        } else if app.buttons["History"].exists {
+            app.buttons["History"].firstMatch.tap()
+            usleep(1500000)
+        }
+        capture("iPad_11_portrait_02_History")
+    }
+
+    func testiPad_11_03_Stats() {
+        let tabBar = app.tabBars.firstMatch
+        if tabBar.exists && tabBar.buttons.count > 2 {
+            tabBar.buttons.element(boundBy: 2).tap()
+            usleep(1500000)
+        } else if app.buttons["Stats"].exists {
+            app.buttons["Stats"].firstMatch.tap()
+            usleep(1500000)
+        }
+        capture("iPad_11_portrait_03_Stats")
+    }
+
+    func testiPad_11_04_Achievements() {
+        let tabBar = app.tabBars.firstMatch
+        if tabBar.exists && tabBar.buttons.count > 3 {
+            tabBar.buttons.element(boundBy: 3).tap()
+            usleep(1500000)
+        } else if app.buttons["Badges"].exists {
+            app.buttons["Badges"].firstMatch.tap()
+            usleep(1500000)
+        }
+        capture("iPad_11_portrait_04_Achievements")
+    }
+
+    func testiPad_11_05_Settings() {
+        let tabBar = app.tabBars.firstMatch
+        if tabBar.exists && tabBar.buttons.count > 4 {
+            tabBar.buttons.element(boundBy: 4).tap()
+            usleep(1500000)
+        } else if app.buttons["Settings"].exists {
+            app.buttons["Settings"].firstMatch.tap()
+            usleep(1500000)
+        }
+        capture("iPad_11_portrait_05_Settings")
     }
 }
 ```
@@ -641,101 +1194,278 @@ final class ScreenshotTests: XCTestCase {
 #### Step 3: 同步到 MacinCloud 并生成项目
 ```bash
 # 本地提交
-git add -A && git commit -m "Add screenshot tests" && git push origin master
+git add -A && git commit -m "Add screenshot tests" && git push origin main
 
 # MacinCloud 同步
-sshpass -p 'idt52924irh' ssh user291981@LA690.macincloud.com "cd Desktop/ios-{AppName} && git fetch origin && git reset --hard origin/master && ~/tools/xcodegen/bin/xcodegen generate"
+sshpass -p 'idt52924irh' ssh user291981@LA690.macincloud.com "cd Desktop/ios-{AppName} && git fetch origin && git reset --hard origin/main && ~/tools/xcodegen/bin/xcodegen generate"
 ```
 
-#### Step 4: 清除旧截图并运行测试
+#### Step 4: 启动模拟器并运行测试
 ```bash
-# 清除旧截图
-rm -f /tmp/{AppName}_*.png
-rm -f /tmp/iPad_*.png
+# ── iPhone 6.9" (iPhone 16 Pro Max) ──────────────────────────
+xcrun simctl boot 'iPhone 16 Pro Max' 2>/dev/null || true
+sleep 3
 
-# iPhone 16 Pro Max 截图 (1320x2868)
-xcodebuild -project {AppName}.xcodeproj -scheme {AppName}UITests \
-  -configuration Debug \
-  -destination 'platform=iOS Simulator,id=2D92BBA4-DDDE-4306-A1CB-2F5B14DAE732' \
-  test
+xcodebuild test -project {AppName}.xcodeproj -scheme {AppName} \
+  -destination 'platform=iOS Simulator,id={UDID_iPhone_16_Pro_Max}' \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPhone_69_01_Home \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPhone_69_02_History \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPhone_69_03_Stats \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPhone_69_04_Achievements \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPhone_69_05_Settings
 
-# iPhone 16 Plus 截图 (1290x2796)
-xcodebuild -project {AppName}.xcodeproj -scheme {AppName}UITests \
-  -configuration Debug \
-  -destination 'platform=iOS Simulator,id=8803D765-2D04-47B5-901E-D87A072E0BA1' \
-  test
+# ── iPhone 6.5" (iPhone 14 Plus) ─────────────────────────────
+xcrun simctl boot 'iPhone 14 Plus' 2>/dev/null || true
+sleep 3
 
-# iPad Pro 13" 截图 (2048x2732)
-xcodebuild -project {AppName}.xcodeproj -scheme {AppName}UITests \
-  -configuration Debug \
-  -destination 'platform=iOS Simulator,id=81D5F4D6-6566-450C-9937-F4648824BE60' \
-  test
+xcodebuild test -project {AppName}.xcodeproj -scheme {AppName} \
+  -destination 'platform=iOS Simulator,id={UDID_iPhone_14_Plus}' \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPhone_65_01_Home \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPhone_65_02_History \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPhone_65_03_Stats \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPhone_65_04_Achievements \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPhone_65_05_Settings
+
+# ── iPhone 6.3" (iPhone 16 Pro) ───────────────────────────────
+xcrun simctl boot 'iPhone 16 Pro' 2>/dev/null || true
+sleep 3
+
+xcodebuild test -project {AppName}.xcodeproj -scheme {AppName} \
+  -destination 'platform=iOS Simulator,id={UDID_iPhone_16_Pro}' \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPhone_63_01_Home \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPhone_63_02_History \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPhone_63_03_Stats \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPhone_63_04_Achievements \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPhone_63_05_Settings
+
+# ── iPad 13" (iPad Pro 13-inch M4) ────────────────────────────
+xcrun simctl boot 'iPad Pro 13-inch (M4)' 2>/dev/null || true
+sleep 3
+
+xcodebuild test -project {AppName}.xcodeproj -scheme {AppName} \
+  -destination 'platform=iOS Simulator,id={UDID_iPad_Pro_13_M4}' \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPad_13_01_Home \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPad_13_02_History \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPad_13_03_Stats \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPad_13_04_Achievements \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPad_13_05_Settings
+
+# ── iPad 11" (iPad Pro 11-inch M4) ───────────────────────────
+xcrun simctl boot 'iPad Pro 11-inch (M4)' 2>/dev/null || true
+sleep 3
+
+xcodebuild test -project {AppName}.xcodeproj -scheme {AppName} \
+  -destination 'platform=iOS Simulator,id={UDID_iPad_Pro_11_M4}' \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPad_11_01_Home \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPad_11_02_History \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPad_11_03_Stats \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPad_11_04_Achievements \
+  -only-testing:{AppName}UITests/ScreenshotTests/testiPad_11_05_Settings
 ```
 
-#### Step 5: 验证截图尺寸
+#### Step 5: 验证截图内容不同（MD5）
 ```bash
-python3 -c "
-import struct, os
-for f in sorted(os.listdir('/tmp/')):
-    if f.endswith('.png') and ('{AppName}' in f or 'iPad_' in f):
-        path = '/tmp/' + f
-        with open(path, 'rb') as fh:
-            data = fh.read()
-            if len(data) > 24:
-                w = struct.unpack('>I', data[16:20])[0]
-                h = struct.unpack('>I', data[20:24])[0]
-                print(f'{f}: {w}x{h}')
-"
+# 查看截图文件
+ls -la /tmp/iPhone_69_portrait_*.png
+ls -la /tmp/iPhone_65_portrait_*.png
+ls -la /tmp/iPhone_63_portrait_*.png
+ls -la /tmp/iPad_13_portrait_*.png
+ls -la /tmp/iPad_11_portrait_*.png
+
+# MD5 验证 - 每张截图必须有不同哈希
+md5 /tmp/iPhone_69_portrait_*.png
+md5 /tmp/iPhone_65_portrait_*.png
+md5 /tmp/iPhone_63_portrait_*.png
+md5 /tmp/iPad_13_portrait_*.png
+md5 /tmp/iPad_11_portrait_*.png
+
+# 截图尺寸验证
+sips -g pixelHeight -g pixelWidth /tmp/iPhone_69_portrait_01_Home.png
+sips -g pixelHeight -g pixelWidth /tmp/iPhone_65_portrait_01_Home.png
+sips -g pixelHeight -g pixelWidth /tmp/iPhone_63_portrait_01_Home.png
+sips -g pixelHeight -g pixelWidth /tmp/iPad_13_portrait_01_Home.png
+sips -g pixelHeight -g pixelWidth /tmp/iPad_11_portrait_01_Home.png
 ```
 
-### 6.3 iPad 特殊注意事项
+> ⚠️ **⚠️ 最重要的一步：MD5 通过 ≠ 截图正确！** MD5 只验证文件大小/压缩不同，**不验证内容是否真的是不同页面**。必须：
+> 1. **肉眼检查**：用 `scp` 把截图下载到本地，肉眼确认每张是不同的页面
+> 2. **常见错误**：所有截图都是首页 → Tab 切换代码失败（参考 §6.3 排查）
+> 3. **不要跳过这一步**，否则提交后 App Store 会因截图不符合要求被拒
 
-**问题：** iPad 模拟器的 TabBar 元素查询与 iPhone 不同，可能导致普通 UITest 在 iPad 上失败。
+### 6.3 iPad Tab 导航问题排查
 
-**解决方案：**
-1. 创建**独立的 iPad 截图测试文件**（如 `iPadScreenshotTests.swift`），不要与 iPhone 测试混用
-2. iPad 测试中**不进行 TabBar 断言**，只截图
-3. 测试文件只包含截图逻辑，不做 UI 交互验证
+**问题症状：** iPad 上所有截图都是首页内容，Tab 切换无效。
 
+**根本原因：** SwiftUI TabView 在 iPad 上使用不同的布局方式：
+- iPhone：`TabView` 显示标准底部 TabBar，`tabBars.buttons.element(boundBy: N)` 可用
+- iPad：`TabView` 可能将 TabBar 隐藏在 Toolbar 中，或使用不同元素结构
+
+**排查步骤：**
+
+1. **检查 TabBar 存在性：**
 ```swift
-// iPad 专用截图测试示例
-func testDashboard() throws {
-    ss("01_dashboard")  // 不检查 TabBar 是否存在，直接截图
+let tabBar = app.tabBars.firstMatch
+print("TabBar exists: \(tabBar.exists)")
+print("TabBar buttons count: \(tabBar.buttons.count)")
+```
+
+2. **尝试多种定位方式：**
+```swift
+// 方式1：tabBars.buttons（iPhone 方式）
+app.tabBars.buttons.element(boundBy: 1).tap()
+
+// 方式2：按标签名称查找（iPad 主要方式）
+app.buttons["History"].firstMatch.tap()
+
+// 方式3：staticTexts（某些 iPad 版本）
+app.staticTexts["History"].tap()
+```
+
+3. **如果仍然失败：** 创建 Debug 测试 Dump UI 元素层级：
+```swift
+func testDebug() {
+    print("Windows: \(app.windows.count)")
+    print("TabBars: \(app.tabBars.count)")
+    print("All buttons: \(app.buttons.count)")
+    for i in 0..<min(app.buttons.count, 20) {
+        let btn = app.buttons.element(boundBy: i)
+        print("Button \(i): '\(btn.label)' at \(btn.frame)")
+    }
 }
 ```
 
+**最佳实践：** 使用 `app.buttons["TabLabel"].firstMatch.tap()` 作为 iPad 主要方式，保留 `tabBars.buttons` 作为 iPhone 的回退方案。
+
 ### 6.4 截图文件名规范
 
+**核心要求：每个页面都要有截图，文件名必须包含页面名称。**
+
+> ⚠️ **必须确保每张截图真的是不同页面！** 文件名包含页面名 ≠ 截图是那个页面。常见错误：文件名是 `02_History.png` 但实际截的还是首页，导致 App Store 审核被拒。**必须通过 §Step 5 MD5 + 肉眼检查验证**。
+
 ```
-iPhone_69_portrait_01_Home.png   # 6.9" (1320×2868) - iPhone 16 Pro Max
-iPhone_69_portrait_02_Trans.png
-iPhone_69_portrait_03_Budget.png
+# 每个页面一张截图，文件名格式：序号_页面名称.png
 
-iPhone_67_portrait_01_Home.png   # 6.7" (1290×2796) - iPhone 15 Pro Max
-iPhone_67_portrait_02_Trans.png
-iPhone_67_portrait_03_Budget.png
+# iPhone 6.9" (1320×2868) - iPhone 16 Pro Max
+iPhone_69_portrait_01_Home.png
+iPhone_69_portrait_02_History.png
+iPhone_69_portrait_03_Stats.png
+iPhone_69_portrait_04_Achievements.png
+iPhone_69_portrait_05_Settings.png
+...                                 # 有多少页面就放多少张
 
-iPhone_65_portrait_01_Home.png   # 6.5" (1290×2796) - iPhone 16 Plus
-iPhone_65_portrait_02_Trans.png
-iPhone_65_portrait_03_Budget.png
+# iPhone 6.5" (1284×2778) - iPhone 14 Plus
+iPhone_65_portrait_01_Home.png
+iPhone_65_portrait_02_History.png
+iPhone_65_portrait_03_Stats.png
+iPhone_65_portrait_04_Achievements.png
+iPhone_65_portrait_05_Settings.png
+...
 
-iPhone_61_portrait_01_Home.png   # 6.1" (1170×2532) - iPhone 16
-iPhone_61_portrait_02_Trans.png
-iPhone_61_portrait_03_Budget.png
+# iPhone 6.3" (1206×2622) - iPhone 16 Pro
+iPhone_63_portrait_01_Home.png
+iPhone_63_portrait_02_History.png
+iPhone_63_portrait_03_Stats.png
+iPhone_63_portrait_04_Achievements.png
+iPhone_63_portrait_05_Settings.png
+...
 
-iPad_129_portrait_01_Home.png    # 12.9" (2048×2732)
-iPad_129_portrait_02_Trans.png
-iPad_129_portrait_03_Budget.png
+# iPad 13" (2048×2732) - iPad Pro 13-inch (M4)
+iPad_13_portrait_01_Home.png
+iPad_13_portrait_02_History.png
+iPad_13_portrait_03_Stats.png
+iPad_13_portrait_04_Achievements.png
+iPad_13_portrait_05_Settings.png
+...
+
+# iPad 11" (1668×2388) - iPad Pro 11-inch (M4)
+iPad_11_portrait_01_Home.png
+iPad_11_portrait_02_History.png
+iPad_11_portrait_03_Stats.png
+iPad_11_portrait_04_Achievements.png
+iPad_11_portrait_05_Settings.png
+...
 ```
+
+**文件夹结构：**
+```
+AppStoreScreenshots/
+├── iPhone_69_1320x2868/        # 上传区域1：6.9"（1320×2868 iPhone 16 Pro Max 截）
+│   ├── 01_Home.png
+│   ├── 02_History.png
+│   ├── 03_Stats.png
+│   ├── 04_Achievements.png
+│   ├── 05_Settings.png
+│   └── ...                    # 有多少页面就放多少张
+├── iPhone_65_1284x2778/        # 上传区域2：6.5"（1284×2778 iPhone 14 Plus 截）
+│   ├── 01_Home.png
+│   ├── 02_History.png
+│   ├── 03_Stats.png
+│   ├── 04_Achievements.png
+│   ├── 05_Settings.png
+│   └── ...
+├── iPhone_63_1206x2622/        # 上传区域3：6.3"（1206×2622 iPhone 16 Pro 截）
+│   ├── 01_Home.png
+│   ├── 02_History.png
+│   ├── 03_Stats.png
+│   ├── 04_Achievements.png
+│   ├── 05_Settings.png
+│   └── ...
+├── iPad_13_2048x2732/          # 上传区域4：13"（2048×2732 iPad Pro 13" M4 截）
+│   ├── 01_Home.png
+│   ├── 02_History.png
+│   ├── 03_Stats.png
+│   ├── 04_Achievements.png
+│   ├── 05_Settings.png
+│   └── ...
+├── iPad_11_1668x2388/          # 上传区域5：11"（1668×2388 iPad Pro 11" M4 截）
+│   ├── 01_Home.png
+│   ├── 02_History.png
+│   ├── 03_Stats.png
+│   ├── 04_Achievements.png
+│   ├── 05_Settings.png
+│   └── ...
+```
+
+**命名规则：**
+- 子目录名格式：`{设备类别}_{实际宽度}x{实际高度}`
+- 文件名只含序号和页面名：`序号_页面名称.png`
+- 同一上传区域的截图必须来自同一模拟器（相同分辨率）
+- 有多少个 Tab 就生成多少张截图
+
+> ⚠️ **分辨率必须与模拟器实际输出一致！** 示例中的分辨率（如 `1320x2868`）是 iPhone 16 Pro Max 的分辨率。如果使用其他模拟器，分辨率会不同。**上传 App Store 时必须使用正确的分辨率**，否则会被拒绝。下表是推荐模拟器与对应分辨率对照：
+
+| 模拟器 | 输出分辨率 | 对应上传区域 |
+|--------|-----------|-------------|
+| iPhone 16 Pro Max | 1320×2868 | iPhone_69_1320x2868 |
+| iPhone 14 Plus | 1284×2778 | iPhone_65_1284x2778 |
+| iPhone 16 Pro | 1206×2622 | iPhone_63_1206x2622 |
+| iPad Pro 13" (M4) | 2048×2732 | iPad_13_2048x2732 |
+| iPad Pro 11" (M4) | 1668×2388 | iPad_11_1668x2388 |
 
 ### 6.5 下载截图
 
 ```bash
-# 下载所有截图到本地
+# 下载所有截图到本地（⚠️ 只下载本次测试生成的截图，不要下载 /tmp/ 下其他文件）
+# 使用通配符限定只下载 App 相关的截图文件
 sshpass -p 'idt52924irh' scp user291981@LA690.macincloud.com:/tmp/*.png ./
 
-# 按设备分类
-mkdir -p Screenshots/iPhone_69 Screenshots/iPhone_67 Screenshots/iPhone_65 Screenshots/iPhone_61 Screenshots/iPad_129
+# 按分辨率创建子目录（根据你使用的模拟器调整分辨率）
+mkdir -p Screenshots/iPhone_69_1320x2868
+mkdir -p Screenshots/iPhone_65_1284x2778
+mkdir -p Screenshots/iPhone_63_1206x2622
+mkdir -p Screenshots/iPad_13_2048x2732
+mkdir -p Screenshots/iPad_11_1668x2388
+
+# 自动将截图按设备分类移动到对应子目录（并去除设备前缀，只保留序号_页面名）
+for f in iPhone_69_portrait_*.png iPhone_65_portrait_*.png iPhone_63_portrait_*.png iPad_13_portrait_*.png iPad_11_portrait_*.png; do
+    case "$f" in
+        iPhone_69_portrait_*)   mv "$f" "Screenshots/iPhone_69_1320x2868/${f#iPhone_69_portrait_}" ;;
+        iPhone_65_portrait_*)   mv "$f" "Screenshots/iPhone_65_1284x2778/${f#iPhone_65_portrait_}" ;;
+        iPhone_63_portrait_*)   mv "$f" "Screenshots/iPhone_63_1206x2622/${f#iPhone_63_portrait_}" ;;
+        iPad_13_portrait_*)     mv "$f" "Screenshots/iPad_13_2048x2732/${f#iPad_13_portrait_}" ;;
+        iPad_11_portrait_*)      mv "$f" "Screenshots/iPad_11_1668x2388/${f#iPad_11_portrait_}" ;;
+    esac
+done
 ```
 
 ### 6.6 验证截图尺寸（完整脚本）
@@ -743,27 +1473,288 @@ mkdir -p Screenshots/iPhone_69 Screenshots/iPhone_67 Screenshots/iPhone_65 Scree
 ```python
 import struct, os
 
-target_sizes = {
-    'iPhone_69': (1320, 2868),
-    'iPhone_67': (1290, 2796),
-    'iPhone_65': (1290, 2796),
-    'iPhone_61': (1170, 2532),
-    'iPad_129': (2048, 2732),
+# 子目录 → 期望分辨率（宽×高）
+expected_sizes = {
+    'iPhone_69_1320x2868': (1320, 2868),
+    'iPhone_65_1284x2778': (1284, 2778),
+    'iPhone_63_1206x2622': (1206, 2622),
+    'iPad_13_2048x2732':    (2048, 2732),
+    'iPad_11_1668x2388':    (1668, 2388),
 }
 
-for f in sorted(os.listdir('./Screenshots/')):
-    if not f.endswith('.png'):
+errors = []
+for subdir, (expected_w, expected_h) in expected_sizes.items():
+    subdir_path = f'./Screenshots/{subdir}'
+    if not os.path.isdir(subdir_path):
+        errors.append(f'MISSING: {subdir}/ (请创建目录)')
         continue
-    path = f'./Screenshots/{f}'
-    with open(path, 'rb') as fh:
-        data = fh.read()
-        if len(data) > 24:
-            w = struct.unpack('>I', data[16:20])[0]
-            h = struct.unpack('>I', data[20:24])[0]
-            print(f'{f}: {w}x{h}')
+    print(f'\n=== {subdir} (期望: {expected_w}x{expected_h}) ===')
+    files = sorted([f for f in os.listdir(subdir_path) if f.endswith('.png')])
+    for fname in files:
+        path = f'{subdir_path}/{fname}'
+        with open(path, 'rb') as fh:
+            data = fh.read()
+            if len(data) > 24:
+                w = struct.unpack('>I', data[16:20])[0]
+                h = struct.unpack('>I', data[20:24])[0]
+                status = '✅' if (w, h) == (expected_w, expected_h) else f'❌ 期望{expected_w}x{expected_h}'
+                print(f'  {fname}: {w}x{h} {status}')
+
+if errors:
+    print('\n=== 错误 ===')
+    for e in errors:
+        print(e)
 ```
 
-## 第七阶段：Widget 数据共享
+## 第六阶段附加：功能测试、E2E 测试与录屏制作
+
+### 6.7 功能测试（Unit Tests）
+
+#### 目的
+验证 App 核心业务逻辑正确性（数据模型、计算逻辑、状态管理等）。
+
+#### 规则
+- **必须覆盖**：所有 Model 的初始化、编解码（Codable）、业务计算
+- **存放位置**：`{AppName}Tests/` 目录下
+- **执行方式**：`xcodebuild test -project {AppName}.xcodeproj -scheme {AppName}Tests`
+
+#### 示例结构
+```swift
+final class HabitModelTests: XCTestCase {
+
+    func testHabitCodable() throws {
+        let habit = Habit(name: "Reading", icon: "book.fill", target: 30)
+        let data = try JSONEncoder().encode(habit)
+        let decoded = try JSONDecoder().decode(Habit.self, from: data)
+        XCTAssertEqual(habit.name, decoded.name)
+        XCTAssertEqual(habit.icon, decoded.icon)
+    }
+
+    func testStreakCalculation() {
+        let habit = Habit(name: "Running", icon: "figure.run", target: 60)
+        // 模拟连续3天完成
+        habit.completeToday()
+        habit.completeToday()
+        habit.completeToday()
+        XCTAssertEqual(habit.currentStreak, 3)
+    }
+}
+```
+
+---
+
+### 6.8 E2E 测试（UI Tests）
+
+#### 目的
+模拟真实用户操作流程，验证完整功能链路（注册 → 创建习惯 → 完成 → 查看统计）。
+
+#### 存放位置
+`{AppName}UITests/` 目录下，与截图测试共用一个文件或分文件存放。
+
+#### 核心 E2E 场景（必须覆盖）
+
+| 场景 | 操作步骤 | 验证点 |
+|------|---------|-------|
+| 创建习惯 | 首页 → "+" → 输入名称 → 选择图标 → 保存 | 习惯出现在列表 |
+| 完成习惯 | 习惯卡片 → 点击完成按钮 | 连续天数增加 |
+| 查看统计 | 底部 Tab "Stats" | 显示数据图表 |
+| 删除习惯 | 左滑习惯 → 删除 → 确认 | 习惯从列表消失 |
+| 通知权限 | 首次启动 → 允许通知 | 通知能够弹出 |
+
+#### E2E 测试模板
+
+> ⚠️ **必须先设置 accessibilityIdentifier**：E2E 测试依赖 UI 元素的可访问性标识符。开发阶段必须给关键 UI 元素设置 `accessibilityIdentifier("button_id")`，否则 UI 测试无法定位元素。
+
+```swift
+final class E2ETests: XCTestCase {
+
+    var app: XCUIApplication!
+
+    override func setUpWithError() throws {
+        continueAfterFailure = false
+        app = XCUIApplication()
+        app.launchArguments = ["--uitesting", "--reset-state"]  // 可选：重置状态
+        app.launch()
+    }
+
+    // ============================================================
+    // ⚠️ 必须替换为实际 App 的 accessibilityIdentifier
+    // 示例中的 "AddHabit"/"Save" 等仅为占位符
+    // ============================================================
+
+    func testCoreUserFlow() {
+        // 1. 点击首页主要按钮（替换为实际 identifier）
+        app.buttons["your_button_id"].firstMatch.tap()
+
+        // 2. 输入文本（替换为实际 identifier）
+        let textField = app.textFields["your_textfield_id"]
+        textField.tap()
+        textField.typeText("Test Input")
+
+        // 3. 点击保存/确认按钮（替换为实际 identifier）
+        app.buttons["save_button_id"].firstMatch.tap()
+
+        // 4. 验证结果出现
+        XCTAssertTrue(app.staticTexts["expected_text"].waitForExistence(timeout: 5))
+    }
+}
+```
+
+**通用核心 E2E 场景（根据实际 App 功能调整）：**
+
+| 场景 | 操作步骤 | 验证点 |
+|------|---------|-------|
+| 核心操作流 | App 启动 → 完成主要功能 → 查看结果 | 功能链路完整，无崩溃 |
+| 数据持久化 | 创建数据 → 重启 App → 数据仍存在 | 数据正确保存 |
+| 状态重置 | 修改状态 → 验证变化 → 重置 → 验证恢复 | 状态管理正确 |
+| 通知权限 | 首次提示 → 授权/拒绝 → 验证行为 | 权限处理正确 |
+
+---
+
+### 6.9 录屏制作（云 Mac 无录屏权限解决方案）
+
+#### 问题
+MacinCloud 的 VNC 桌面**没有录屏权限**，无法直接录制 App 预览视频。
+
+#### 解决方案
+通过 XCUITest 将截图拼接为视频（使用 `AVAssetWriter` 或 Python PIL + ffmpeg）。
+
+#### Step 1：在 XCUITest 中连续截图
+```swift
+func testAppPreviewRecording() {
+    let outputDir = "/tmp/preview_frames/"
+    FileManager.default.createDirectory(atPath: outputDir, withIntermediateDirectories: true)
+
+    // 场景1：首页 Tab 切换（⚠️ 替换为实际 accessibilityIdentifier）
+    let scenes = ["Home", "Settings"]
+    for (index, scene) in scenes.enumerated() {
+        capture("\(outputDir)scene_\(index)_01.png")
+        usleep(300000)  // 300ms 停留
+    }
+
+    // 场景2：主要操作流程（⚠️ 替换为实际 accessibilityIdentifier）
+    app.buttons["main_action_id"].firstMatch.tap()
+    usleep(500000)
+    capture("\(outputDir)scene_\(scenes.count)_01.png")
+    app.textFields["input_field_id"].typeText("Sample Input")
+    usleep(300000)
+    capture("\(outputDir)scene_\(scenes.count)_02.png")
+    app.buttons["confirm_button_id"].firstMatch.tap()
+    usleep(500000)
+    capture("\(outputDir)scene_\(scenes.count)_03.png")
+}
+```
+
+#### Step 2：下载截图到本地
+```bash
+sshpass -p 'idt52924irh' scp -r user291981@LA690.macincloud.com:/tmp/preview_frames/ ./
+```
+
+#### Step 3：用 Python + ffmpeg 拼接为视频
+```python
+import subprocess
+import os
+from PIL import Image
+
+# 帧目录
+frames_dir = "./preview_frames/"
+output_video = "./AppPreview.mp4"
+
+# 获取所有帧文件并排序
+frame_files = sorted([f for f in os.listdir(frames_dir) if f.endswith('.png')])
+
+# 使用 ffmpeg 将图片序列转换为视频
+# 格式：fps=2，每帧停留 500ms
+ffmpeg_cmd = [
+    'ffmpeg', '-y',
+    '-framerate', '2',  # 2 fps
+    '-i', f'{frames_dir}scene_%d_01.png',  # 输入 pattern
+    '-c:v', 'libx264',
+    '-pix_fmt', 'yuv420p',
+    '-crf', '23',  # 质量因子
+    '-preset', 'medium',
+    output_video
+]
+
+result = subprocess.run(ffmpeg_cmd, capture_output=True, text=True)
+if result.returncode == 0:
+    print(f"✅ 视频已生成: {output_video}")
+else:
+    print(f"❌ ffmpeg 错误: {result.stderr}")
+```
+
+#### Step 4：或在 MacinCloud 本地直接用 AVAssetWriter 生成视频
+```swift
+import AVFoundation
+import CoreImage
+
+func generateVideoFromFrames(framePaths: [String], outputURL: URL, fps: Int = 2) {
+    let writer = try! AVAssetWriter(outputURL: outputURL, fileType: .mp4)
+    let settings: [String: Any] = [
+        AVVideoCodecKey: AVVideoCodecType.h264,
+        AVVideoWidthKey: 1320,
+        AVVideoHeightKey: 2868
+    ]
+    let writerInput = AVAssetWriterInput(mediaType: .video, outputSettings: settings)
+    writer.add(writerInput)
+
+    writer.startWriting()
+    writer.startSession(atSourceTime: .zero)
+
+    let frameDuration = CMTime(value: 1, timescale: CMTimeScale(fps))
+    for (index, path) in framePaths.enumerated() {
+        let image = UIImage(contentsOfFile: path)!
+        let buffer = pixelBuffer(from: image)!
+        let presentationTime = CMTimeMultiply(frameDuration, multiplier: Int32(index))
+
+        writerInput.append(buffer, withPresentationTime: presentationTime)
+    }
+
+    writer.finishWriting()
+}
+```
+
+#### 录屏规格要求（App Store Connect）
+
+| 字段 | 要求 |
+|------|------|
+| 格式 | MP4 / MOV |
+| 最大时长 | 30 秒 |
+| 最大文件大小 | 100 MB |
+| 分辨率 | 必须与截图分辨率一致（1320×2868 等） |
+| 编码 | H.264 |
+| 音频 | **不需要**（App Preview 默不带音频也可）|
+
+> ⚠️ **重要**：如果 App Store 要求必须带音频，需在 ffmpeg 命令中混入背景音乐：
+> ```bash
+> ffmpeg -y -framerate 2 -i scene_%d_01.png -i background_music.mp3 -c:v libx264 -shortest output.mp4
+> ```
+
+---
+
+### 6.10 测试执行
+
+#### 本地快速验证
+```bash
+# Unit Tests
+xcodebuild test -project {AppName}.xcodeproj \
+  -scheme {AppName}Tests \
+  -destination 'platform=iOS Simulator,id={UDID}'
+
+# UI Tests（含 E2E）
+xcodebuild test -project {AppName}.xcodeproj \
+  -scheme {AppName} \
+  -destination 'platform=iOS Simulator,id={UDID}' \
+  -only-testing:{AppName}UITests/E2ETests
+```
+
+> ⚠️ **必须验证项**：每次提交前确保 `xcodebuild test` 全部通过，否则 App Store 审核可能因功能缺陷被拒。
+> ⚠️ **测试前必须 Claude Code 审查**：运行测试前，先用 Claude Code 对测试代码进行审查，确保测试逻辑正确、coverage 足够。
+
+
+## 第七阶段：Widget 数据共享 / Beta 测试
+
+> ⚠️ **Widget 为可选功能**。如果 App 不需要 Widget（如噪音检测、饮水追踪等），跳过此阶段。
 
 ### 7.1 App Groups 配置
 
@@ -790,13 +1781,28 @@ let data = sharedDefaults?.data(forKey: "habits")
 
 ---
 
+### 7.2 Beta 测试（TestFlight）
+
+**提交审核前必须进行 Beta 测试**：
+1. Archive 打包后，通过 Xcode Organizer 上传 TestFlight
+2. 邀请内部测试员（至少 1 名）进行功能验证
+3. 修复 Beta 测试发现的 Bug
+4. Beta 测试通过后才能提交 App Store 审核
+
+**TestFlight 要求**：
+- 必须有至少 1 名内部测试员
+- Beta 测试版本号必须与提交审核版本一致
+- 修复 Bug 后重新上传 TestFlight，审核前再提交
+
+---
+
 ## 第八阶段：App Store Connect 上传
 
 ### 8.1 Archive 操作（VNC 桌面）
 
 1. Xcode 打开 `{AppName}.xcodeproj`
 2. 顶部 scheme 选择 `{AppName}`
-3. **Product → Archive**（快捷键 ⌘⇧B）
+3. **Product → Archive**（通过菜单操作，Xcode 无默认快捷键）
 4. Archive 完成 → **Window → Organizer** 打开
 5. 选中 archive → **Distribute → App Store Connect → Sign and Upload**
 6. Team 选择 **ZhiFeng Sun (9L6N2ZF26B)**
@@ -808,14 +1814,87 @@ let data = sharedDefaults?.data(forKey: "habits")
 |------|---------|
 | App Name | `{AppStoreName}`（App Store 确认名称）|
 | Bundle ID | `com.ggsheng.{AppName}` |
-| Category | Productivity |
+| Category | **见下方类别选择指南** |
 | Price | Free |
 | Privacy Policy URL | `https://lauer3912.github.io/ios-{AppName}/docs/PrivacyPolicy.html` |
+
+#### App Store 主类别选择指南
+
+根据 App 核心功能选择最符合的主类别：
+
+| App 类型 | 推荐主类别 | 说明 |
+|---------|-----------|------|
+| 番茄钟/专注计时 | **Productivity** | 效率工具 |
+| 习惯追踪/待办事项 | **Productivity** | 效率工具 |
+| 睡眠追踪/健康管理 | **Health & Fitness** | 健康与健身 |
+| 屏幕时间管理 | **Productivity** 或 **Utilities** | 效率/工具类 |
+| 财务记账/预算 | **Finance** | 财务 |
+| 膳食/营养追踪 | **Health & Fitness** | 健康与健身 |
+| 步数/运动追踪 | **Health & Fitness** | 健康与健身 |
+| 瑜伽/拉伸/健身 | **Health & Fitness** | 健康与健身 |
+| 音乐播放/白噪音 | **Productivity** 或 **Music** | 效率/音乐 |
+| 噪音检测/报警 | **Utilities** | 工具类 |
+| 饮水追踪 | **Health & Fitness** | 健康与健身 |
+| 抉择器/随机选择 | **Utilities** | 工具类 |
+| AI 日记/情绪追踪 | **Health & Fitness** 或 **Lifestyle** | 健康/生活方式 |
+| AI 日程/自动驾驶 | **Productivity** | 效率工具 |
+| 游戏类 | **Games** | 游戏 |
+
+> ⚠️ **类别选择影响 App Store 搜索曝光率**。选错类别会导致目标用户搜不到你的 App。
 
 ### 8.3 App 隐私（全部"否"）
 
 - 健康/健身 ❌ | 位置 ❌ | 联系信息 ❌ | 标识用户 ❌
 - 浏览历史 ❌ | 购买行为 ❌ | 崩溃日志 ❌ | 性能数据 ❌ | 广告 ❌
+
+### 8.4 隐私政策要求
+
+> ⚠️ 欧美市场对隐私政策极为重视，Apple 审核会检查隐私政策内容。
+
+**隐私政策必须包含**：
+1. 数据收集：App 收集哪些数据
+2. 数据使用：数据如何被使用
+3. 数据存储：数据存储在哪里，是否加密
+4. 用户权利：用户如何删除数据
+5. 联系方式：开发者联系方式
+6. 儿童隐私：是否面向 13 岁以下儿童
+7. 第三方服务：如果有广告或分析，说明
+
+**隐私政策模板结构**（`ios-{AppName}/Docs/PrivacyPolicy.html`）：
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Privacy Policy</title>
+</head>
+<body>
+    <h1>Privacy Policy</h1>
+    <p>Last updated: [Date]</p>
+    
+    <h2>1. Information We Collect</h2>
+    <p>[Description]</p>
+    
+    <h2>2. How We Use Your Information</h2>
+    <p>[Description]</p>
+    
+    <h2>3. Data Storage and Security</h2>
+    <p>All data is stored locally on your device. We do not transmit your personal data to any third parties.</p>
+    
+    <h2>4. Your Rights</h2>
+    <p>You can delete all your data by uninstalling the app.</p>
+    
+    <h2>5. Contact Us</h2>
+    <p>For any questions, contact: [Email]</p>
+</body>
+</html>
+```
+
+**规则**：
+- 必须使用英文
+- 必须放在 GitHub Pages：`https://lauer3912.github.io/ios-{AppName}/docs/PrivacyPolicy.html`
+- URL 必须与 App Store Connect 填写的隐私政策 URL 完全一致
+- 禁止在隐私政策中包含任何第三方追踪或广告
 
 ---
 
@@ -827,365 +1906,138 @@ let data = sharedDefaults?.data(forKey: "habits")
 | `Assign a team to the targets` | base level 没有 TEAM | 加 `DEVELOPMENT_TEAM: 9L6N2ZF26B` |
 | `Invalid large app icon...alpha` | 1024 图标有透明通道 | 用 PIL 转为 RGB 模式: `Image.open(f).convert('RGB').save(f)` |
 | `Embedded binary not signed` | Widget Release 没开签名 | Widget configs Release 加 YES |
+| `SF Symbols 显示为文字/方块` | 用 `Text(icon)` 而非 `Image(systemName:)` 渲染 SF Symbols | 将所有 `Text(icon)` 改为 `Image(systemName: icon)` |
 | `App Record Creation failed: name in use` | App Store 名称被占 | 换名称或删旧 Record 重建 |
 | `errSecInternalComponent` | keychain 访问被拒 | 用 VNC 桌面操作 Sign and Upload |
 
 ---
 
-## 附录：名字被占用 — 三种策略及完整 Xcode 项目修改步骤
+## 代码质量常见错误（SF Symbols / SwiftUI 图标渲染）
 
-> **⚠️ 本附录使用通用占位符，适用于任何 App。占位符含义：**
-> - `{AppName}` = 当前本地项目使用的业务名（如 "FocusTimer"）
-> - `{DesiredAppStoreName}` = 你想在 App Store 填的新名称（如 "FocusFlow"）
-> - `{NewBundleIdAppName}` = 新 Bundle ID 的业务名（如 "FocusFlow" 换了Bundle ID后叫这个）
-> - `{RepoFolder}` = 本地代码仓库文件夹名（通常等于 `{AppName}`）
+### 问题描述
+
+SF Symbols（如 `flame.fill`、`star.fill`、`checkmark.seal.fill`）必须用 `Image(systemName:)` 渲染，**不能**用 `Text()`。使用 `Text(someIcon)` 会导致图标显示为字面文本（如显示 "flag.fill" 文字）或方块。
+
+**错误示例：**
+```swift
+Text(habit.icon)     // ❌ 图标不显示，显示 "figure.run" 这样的字符串
+Text(category.icon)  // ❌ 同上
+Text(achievement.icon) // ❌ 同上
+```
+
+**正确写法：**
+```swift
+Image(systemName: habit.icon)     // ✅ 正确渲染 SF Symbol
+Image(systemName: category.icon) // ✅ 正确渲染 SF Symbol
+Image(systemName: achievement.icon) // ✅ 正确渲染 SF Symbol
+```
+
+### 受影响场景
+
+| 场景 | 错误写法 | 正确写法 |
+|------|---------|---------|
+| Habit 列表/卡片图标 | `Text(habit.icon)` | `Image(systemName: habit.icon)` |
+| Category 图标 | `Text(category.icon)` | `Image(systemName: category.icon)` |
+| Achievement 卡片图标 | `Text(achievement.icon)` | `Image(systemName: achievement.icon)` |
+| Mood 表情 | `Text(mood.icon)` | `Image(systemName: mood.icon)` |
+| Filter chip 文字（拼接场景）| `"\(habit.icon) \(habit.name)"` | `habit.name` 单独显示，避免拼接无法渲染的 SF Symbol |
+| 统计页 habit 图标 | `Text(habit.icon)` | `Image(systemName: habit.icon)` |
+| 模板图标 | `Text(template.icon)` | `Image(systemName: template.icon)` |
+
+### 验证方法
+
+1. **本地验证：**
+   ```bash
+   grep -rn "Text(.*\.icon)" ios-{AppName}/ --include="*.swift"
+   ```
+   如果有任何输出，说明存在错误写法。
+
+2. **真机/模拟器预览：** 预览时图标显示为字面字符串（如 `"flame.fill"`）或方块，证明使用了 `Text()`。
+
+### 修复后必须操作
+
+1. 修复所有 `Text(xxx.icon)` → `Image(systemName: xxx.icon)`
+2. `git add -A && git commit -m "Fix: Replace Text(icon) with Image(systemName: icon) for SF Symbols" && git push`
+3. MacinCloud `git pull origin main && ~/tools/xcodegen/bin/xcodegen generate`
+4. 重新 Archive + Upload
 
 ---
+
+## 附录：Display Name 修改步骤
+
+> **⚠️ 占位符说明：**
+> - `{AppName}` = 本地项目业务名（如 "FocusTimer"）
+> - `{DesiredDisplayName}` = 想在手机上显示的新名称（如 "ZenFocus"）
+> - `{RepoFolder}` = 本地仓库文件夹名
 
 ### A.1 三层名称体系
 
-| 层级 | 示例占位符 | 位置 | 能否改 |
-|------|-----------|------|--------|
-| App Store 名称 | `{DesiredAppStoreName}` | App Store Connect 填写 | ✅ 随时改 |
-| Bundle ID | `com.ggsheng.{AppName}` | 打包进二进制 | ❌ 上传后不能改 |
-| Display Name | `{AppName}` | Info.plist / PRODUCT_NAME | ✅ 可以改 |
+| 层级 | 位置 | 能否改 |
+|------|------|--------|
+| App Store 名称 | App Store Connect 填写 | ✅ 随时改 |
+| Bundle ID | 打包进二进制 | ❌ 上传后不能改 |
+| Display Name | Info.plist / PRODUCT_NAME | ✅ 可以改 |
 
 ---
 
-### A.2 策略一（推荐）：只改 App Store 显示名，Bundle ID 不变
+### A.2 改名：只改 Display Name
 
-**触发条件：** App Store 名称被占，但 Bundle ID 没人用
+**适用场景**：App Store 名称被占用，或任何只想改手机显示名的场景。
 
-**原理：** Bundle ID 是 App 的唯一标识，同一个 Bundle ID 可以对应不同的 App Store 名称（即同一个 App Record 可以改名）
-
-**场景举例：** `{AppName}=FocusTimer`，App Store 名称 "FocusTimer" 被占 → 想改成 "FocusFlow"，Bundle ID `com.ggsheng.FocusTimer` 没被占
+**原理**：只改用户手机上看到的 Display Name，Bundle ID 和 App Store 名称不变。
 
 **需要修改的文件：**
 
 #### 文件 1：`project.yml`
 
 ```yaml
-# name = Xcode 项目文件名（改成和 App Store 名称一致更好）
-name: {DesiredAppStoreName}                  # 例如：FocusFlow
-
-targets:
-  # target 名称（Xcode 左侧项目树显示的名字）
-  {DesiredAppStoreName}:                     # 例如：FocusFlow
-    settings:
-      base:
-        # PRODUCT_NAME = 用户手机上 App 图标下方显示的名字
-        PRODUCT_NAME: {DesiredAppStoreName}  # 例如：FocusFlow（改了！）
-        # Bundle ID 保持不变（同一个 App Record）
-        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.{AppName}   # 例如：com.ggsheng.FocusTimer
-        INFOPLIST_FILE: {AppName}/Info.plist  # 源码文件夹没改名，路径不变
-        CODE_SIGN_ENTITLEMENTS: {AppName}/{AppName}.entitlements
-    dependencies:
-      - target: {DesiredAppStoreName}Widget   # 例如：FocusFlowWidget
-
-  {DesiredAppStoreName}Widget:               # 例如：FocusFlowWidget
-    settings:
-      base:
-        PRODUCT_NAME: {DesiredAppStoreName}Widget
-        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.{AppName}.widget
-        INFOPLIST_FILE: {AppName}Widget/Info.plist
-        CODE_SIGN_ENTITLEMENTS: {AppName}Widget/{AppName}Widget.entitlements
-
-  {DesiredAppStoreName}Tests:
-    settings:
-      base:
-        PRODUCT_NAME: {DesiredAppStoreName}Tests
-
-  {DesiredAppStoreName}UITests:
-    settings:
-      base:
-        PRODUCT_NAME: {DesiredAppStoreName}UITests
-
-schemes:
-  {DesiredAppStoreName}:
-    build:
-      targets:
-        {DesiredAppStoreName}: all
-        {DesiredAppStoreName}Widget: all
-        {DesiredAppStoreName}UITests: [test]
-```
-
-**project.yml 修改对照表（策略一）：**
-
-| 字段 | 原值 | 新值 | 是否修改 |
-|------|------|------|---------|
-| `name:` | `{AppName}` | `{DesiredAppStoreName}` | ✅ 改 |
-| Target 名称 | `{AppName}` | `{DesiredAppStoreName}` | ✅ 改 |
-| Target `PRODUCT_NAME:` | `{AppName}` | `{DesiredAppStoreName}` | ✅ 改 |
-| Target `PRODUCT_BUNDLE_IDENTIFIER:` | `com.ggsheng.{AppName}` | **`com.ggsheng.{AppName}`（不变）`** | ❌ |
-| Target `INFOPLIST_FILE:` | `{AppName}/...` | **`{AppName}/...`（不变）`** | ❌ |
-| Target `CODE_SIGN_ENTITLEMENTS:` | `{AppName}/...` | **`{AppName}/...`（不变）`** | ❌ |
-| Widget target 名称 | `{AppName}Widget` | `{DesiredAppStoreName}Widget` | ✅ 改 |
-| Widget Bundle ID | `com.ggsheng.{AppName}.widget` | **`com.ggsheng.{AppName}.widget`（不变）`** | ❌ |
-| Scheme 名称 | `{AppName}` | `{DesiredAppStoreName}` | ✅ 改 |
-
-#### 文件 2：`Info.plist`
-
-```xml
-<!-- 只改这一行 -->
-<key>CFBundleDisplayName</key>
-<string>{DesiredAppStoreName}</string>
-```
-
-#### 文件 3：`AppIcon.appiconset/Contents.json`
-
-更新 Contents.json 为 §4.5 标准 19 项格式，确保 filename 字段与实际文件名一致。使用 `ios-app-icon-generator` skill 从 1024×1024 源图重新生成全部尺寸。
-
-#### 文件 4：所有 `.swift` 源码
-
-**通常无需修改**（除非代码里有硬编码的 App 名称字符串做特殊用途）
-
-#### 文件 5：`AppStore/Listing.md`
-
-```markdown
-**App Name:** {DesiredAppStoreName}
-**Bundle ID:** com.ggsheng.{AppName}    <!-- 不变 -->
-```
-
-**执行步骤：**
-
-```bash
-# 1. 本地修改 project.yml 的 name / target 名 / PRODUCT_NAME / scheme
-# 2. 本地修改 Info.plist 的 CFBundleDisplayName
-# 3. 提交推送
-git add -A && git commit -m "Rename to {DesiredAppStoreName}: App Store name change only" && git push
-
-# 4. MacinCloud
-cd ~/Desktop/ios-{RepoFolder}
-git pull origin main
-~/tools/xcodegen/bin/xcodegen generate
-# 注意：会生成新的 {DesiredAppStoreName}.xcodeproj
-rm -rf ~/Library/Developer/Xcode/DerivedData/*
-xcodebuild build -project {DesiredAppStoreName}.xcodeproj \
-  -target {DesiredAppStoreName} -configuration Debug \
-  -destination 'platform=iOS Simulator,id={UDID}'
-
-# 5. VNC 桌面打开新的 {DesiredAppStoreName}.xcodeproj
-# 6. Archive → Distribute → Sign and Upload
-# 7. App Store Connect 填新名称 {DesiredAppStoreName}
-```
-
----
-
-### A.3 策略二：Bundle ID 被占，换 Bundle ID + 全新 App Record
-
-**触发条件：** Bundle ID 被人抢先注册了，必须换 Bundle ID 才能上架
-
-**原理：** Bundle ID 是全局唯一标识，一旦被他人注册无法使用。必须换新的 Bundle ID，因此也必须创建新的 App Record
-
-**场景举例：** `{AppName}=FocusTimer`，Bundle ID `com.ggsheng.FocusTimer` 被人注册了 → 必须换新的 Bundle ID `com.ggsheng.FocusFlow`
-
-**需要修改的文件：**
-
-#### 文件 1：`project.yml`（全面修改）
-
-```yaml
-name: {NewBundleIdAppName}                  # 例如：FocusFlow
-
-targets:
-  {NewBundleIdAppName}:                     # 例如：FocusFlow
-    settings:
-      base:
-        # ← Bundle ID 换了！
-        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.{NewBundleIdAppName}
-        PRODUCT_NAME: {NewBundleIdAppName}   # ← 显示名也改了
-        INFOPLIST_FILE: {NewBundleIdAppName}/Info.plist  # ← 路径随文件夹改
-        CODE_SIGN_ENTITLEMENTS: {NewBundleIdAppName}/{NewBundleIdAppName}.entitlements
-    dependencies:
-      - target: {NewBundleIdAppName}Widget   # ← 改了
-
-  {NewBundleIdAppName}Widget:               # 例如：FocusFlowWidget
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.{NewBundleIdAppName}.widget
-        PRODUCT_NAME: {NewBundleIdAppName}Widget
-        INFOPLIST_FILE: {NewBundleIdAppName}Widget/Info.plist
-        CODE_SIGN_ENTITLEMENTS: {NewBundleIdAppName}Widget/{NewBundleIdAppName}Widget.entitlements
-
-  {NewBundleIdAppName}Tests:
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.{NewBundleIdAppName}Tests
-        PRODUCT_NAME: {NewBundleIdAppName}Tests
-
-  {NewBundleIdAppName}UITests:
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.{NewBundleIdAppName}UITests
-        PRODUCT_NAME: {NewBundleIdAppName}UITests
-
-schemes:
-  {NewBundleIdAppName}:
-    build:
-      targets:
-        {NewBundleIdAppName}: all
-        {NewBundleIdAppName}Widget: all
-        {NewBundleIdAppName}UITests: [test]
-```
-
-**project.yml 修改对照表（策略二）：**
-
-| 字段 | 原值 | 新值 | 是否修改 |
-|------|------|------|---------|
-| `name:` | `{AppName}` | `{NewBundleIdAppName}` | ✅ 改 |
-| Target 名称 | `{AppName}` | `{NewBundleIdAppName}` | ✅ 改 |
-| Target `PRODUCT_BUNDLE_IDENTIFIER:` | `com.ggsheng.{AppName}` | **`com.ggsheng.{NewBundleIdAppName}`** | ✅ 改 |
-| Target `PRODUCT_NAME:` | `{AppName}` | `{NewBundleIdAppName}` | ✅ 改 |
-| Target `INFOPLIST_FILE:` | `{AppName}/Info.plist` | **`{NewBundleIdAppName}/Info.plist`** | ✅ 改 |
-| Target `CODE_SIGN_ENTITLEMENTS:` | `{AppName}/{AppName}.entitlements` | **`{NewBundleIdAppName}/{NewBundleIdAppName}.entitlements`** | ✅ 改 |
-| Widget Bundle ID | `com.ggsheng.{AppName}.widget` | **`com.ggsheng.{NewBundleIdAppName}.widget`** | ✅ 改 |
-| App Group ID | `group.com.ggsheng.{AppName}` | **`group.com.ggsheng.{NewBundleIdAppName}`**（可选）| ⚠️ 可选 |
-| Folder 路径（source `path:`）| `{AppName}/` | **`{NewBundleIdAppName}/`** | ✅ 需配合文件夹改名 |
-
-#### 文件 2：`Info.plist`
-
-```xml
-<key>CFBundleDisplayName</key>
-<string>{NewBundleIdAppName}</string>
-```
-
-#### 文件 3：`Entitlements`
-
-```xml
-<!-- App Group ID：如果要换就改，否则不变 -->
-<key>com.apple.security.application-groups</key>
-<array>
-    <string>group.com.ggsheng.{NewBundleIdAppName}</string>
-</array>
-```
-
-#### 文件 4：源码文件夹重命名
-
-```bash
-# 必须把所有源码文件夹改名，且和 project.yml 的 path: 一致
-mv {AppName}        {NewBundleIdAppName}
-mv {AppName}Widget  {NewBundleIdAppName}Widget
-mv {AppName}Tests   {NewBundleIdAppName}Tests
-mv {AppName}UITests {NewBundleIdAppName}UITests
-```
-
-**⚠️ 注意：** 如果 App Group ID 也换了，`UserDefaults(suiteName:)` 里的字符串必须同步改：
-
-```swift
-// 主 App 和 Widget 都要改
-UserDefaults(suiteName: "group.com.ggsheng.{NewBundleIdAppName}")
-```
-
-#### 文件 5：`AppStore/Listing.md`
-
-```markdown
-**App Name:** {NewBundleIdAppName}
-**Bundle ID:** com.ggsheng.{NewBundleIdAppName}
-```
-
-**执行步骤：**
-
-```bash
-# 1. App Store Connect 删除旧的 App Record（如果属于你）
-#    或放弃旧的，直接用新 Bundle ID 创建新 App Record
-
-# 2. 本地重命名所有源码文件夹
-mv {AppName}        {NewBundleIdAppName}
-mv {AppName}Widget  {NewBundleIdAppName}Widget
-mv {AppName}Tests   {NewBundleIdAppName}Tests
-mv {AppName}UITests {NewBundleIdAppName}UITests
-
-# 3. 修改 project.yml（所有 target name / PRODUCT_NAME / Bundle ID / paths）
-
-# 4. 修改所有 Info.plist 的 CFBundleDisplayName
-
-# 5. 如果 App Group 改了，同步改 entitlements 和所有 suiteName
-
-# 6. 提交推送
-git add -A && git commit -m "Full rename: Bundle ID to com.ggsheng.{NewBundleIdAppName}" && git push
-
-# 7. MacinCloud
-cd ~/Desktop/ios-{RepoFolder}
-git pull origin main
-~/tools/xcodegen/bin/xcodegen generate
-rm -rf ~/Library/Developer/Xcode/DerivedData/*
-xcodebuild build -project {NewBundleIdAppName}.xcodeproj \
-  -target {NewBundleIdAppName} -configuration Debug \
-  -destination 'platform=iOS Simulator,id={UDID}'
-
-# 8. Archive → App Store Connect 新建 App Record（填 {NewBundleIdAppName}）
-```
-
----
-
-### A.4 策略三：App Store 名称保持，Display Name 换成另一个名字
-
-**触发条件：** App Store 名称没人用，但想给本地显示取另一个名字（不在 App Store 卖）
-
-**原理：** Display Name 只是用户手机上的显示名，App Store Connect 里的名称是独立的
-
-**场景举例：** `{AppName}=FocusTimer`，App Store 没被占，但想在手机桌面上显示 "FocusFlow"
-
-**需要修改的文件：**
-
-#### 文件 1：`project.yml`
-
-```yaml
-name: {AppName}                            # Xcode 项目名不变
-
 targets:
   {AppName}:
     settings:
       base:
-        # 手机上显示的名字改了，但 App Store 还是叫 {AppName}
-        PRODUCT_NAME: {DesiredDisplayName} # ← 改了！
-        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.{AppName}  # 不变
+        PRODUCT_NAME: {DesiredDisplayName}
 ```
 
 #### 文件 2：`Info.plist`
 
 ```xml
 <key>CFBundleDisplayName</key>
-<string>{DesiredDisplayName}</string>    <!-- 用户手机上显示这个名字 -->
+<string>{DesiredDisplayName}</string>
 ```
 
-**App Store Connect 里的 App Name 仍然填 `{AppName}`**
+**执行步骤：**
+
+```bash
+# 1. 本地修改
+git add -A && git commit -m "Update Display Name to {DesiredDisplayName}" && git push
+
+# 2. MacinCloud
+cd ~/Desktop/ios-{AppName}
+git pull origin main
+~/tools/xcodegen/bin/xcodegen generate
+rm -rf ~/Library/Developer/Xcode/DerivedData/*
+xcodebuild build -project {AppName}.xcodeproj \
+  -target {AppName} -configuration Debug \
+  -destination 'platform=iOS Simulator,id={UDID}'
+```
 
 ---
 
-### A.5 三种策略对比
-
-| | 策略一（推荐）| 策略二 | 策略三 |
-|---|---|---|---|
-| **触发条件** | App Store 名被占 | Bundle ID 被占 | Display Name 想另取 |
-| **Bundle ID 变？** | ❌ 不变 | ✅ 换新的 | ❌ 不变 |
-| **Display Name 变？** | ✅ 改 | ✅ 改 | ✅ 改 |
-| **App Store 名变？** | ✅ 填新名 | ✅ 填新名 | ❌ 不变 |
-| **旧 App Record** | 继续用 | 删除重建 | 继续用 |
-| **修改文件数** | 2个 | 4-5个 | 2个 |
-| **App Group 要改？** | ❌ 不变 | ⚠️ 可选 | ❌ 不变 |
-| **需要换 xcodeproj？** | ✅ 会生成新的 | ✅ | ❌ |
-
-### A.6 判断用哪个策略
-
-| 情况 | 策略 |
-|------|------|
-| App Store 名称被占，Bundle ID 没被占 | **策略一** |
-| Bundle ID 被占（被人抢先注册）| **策略二** |
-| App Store 名称没被占，想手机上显示另一个名字 | **策略三** |
-| 想彻底换一个开始 | **策略二（删除旧 App Record）** |
-
----
-
-### A.7 占位符汇总
+### A.3 占位符汇总
 
 | 占位符 | 含义 | 举例 |
 |--------|------|------|
-| `{AppName}` | 当前本地项目的业务名 | FocusTimer |
-| `{DesiredAppStoreName}` | 想在 App Store 填的新名称 | FocusFlow |
-| `{NewBundleIdAppName}` | 换了 Bundle ID 后的业务名 | FocusFlow |
-| `{DesiredDisplayName}` | 想在手机桌面显示的名字 | FocusFlow |
+| `{AppName}` | 本地项目业务名 | FocusTimer |
+| `{DesiredDisplayName}` | 想在手机桌面显示的名字 | ZenFocus |
 | `{RepoFolder}` | 本地仓库文件夹名 | ios-FocusTimer |
 | `{UDID}` | 模拟器 UDID | 59030A31-... |
+| `{UDID_iPhone_16_Pro_Max}` | iPhone 16 Pro Max 模拟器 UDID | 需用 `xcrun simctl list devices booted` 查询 |
+| `{UDID_iPhone_14_Plus}` | iPhone 14 Plus 模拟器 UDID | 同上 |
+| `{UDID_iPhone_16_Pro}` | iPhone 16 Pro 模拟器 UDID | 同上 |
+| `{UDID_iPad_Pro_13_M4}` | iPad Pro 13" (M4) 模拟器 UDID | 同上 |
+| `{UDID_iPad_Pro_11_M4}` | iPad Pro 11" (M4) 模拟器 UDID | 同上 |
+
+> **获取 UDID 方法**：在 MacinCloud 上运行 `xcrun simctl list devices booted`，找到对应模拟器的 UUID 列。
 
 ---
 
@@ -1317,23 +2169,52 @@ focus timer, productivity, focus, concentration, study, work
 - 点 **"设置年龄分级"** → 选择 **"4+"**
 
 **9. 类别**
-- 主类别：**Productivity（效率）**
+- 主类别：**根据 App 类型选择（参考 §8.2 类别选择指南）**
 - 次类别：（不选）
 
 ⚠️ **必须点"存储"按钮**
 
 #### 第八步：App Store 截图（左菜单）
 
-**必需尺寸（4 个设备，每个至少 3 张，共最少 12 张）：**
+**必需尺寸（5 个上传区域，每个最多 10 张截图）：**
 
-| 设备 | 尺寸（像素）| 方向 | 最少数量 |
-|------|-----------|------|---------|
-| iPhone 6.7" | 1290×2796 或 2796×1290 | 竖 / 横 | 3 张 |
-| iPhone 6.5" | 1284×2778 或 2778×1284 | 竖 / 横 | 3 张 |
-| iPhone 6.1" | 1170×2532 或 2532×1170 | 竖 / 横 | 3 张 |
-| iPad 12.9" | 2048×2732 或 2732×2048 | 竖 / 横 | 3 张 |
+| 上传区域 | 接受分辨率（px）| 方向 |
+|---------|----------------|------|
+| iPhone 6.9"（合并 6.5"/6.7"/6.9"）| 1260×2736, 2736×1260, 1320×2868, 2868×1320, 1290×2796, 2796×1290 | 竖 / 横 |
+| iPhone 6.5" | 1242×2688, 2688×1242, 1284×2778, 2778×1284 | 竖 / 横 |
+| iPhone 6.3" | 1206×2622, 2622×1206, 1179×2556, 2556×1179 | 竖 / 横 |
+| iPad 13" | 2064×2752, 2752×2064, 2048×2732, 2732×2048 | 竖 / 横 |
+| iPad 11" | 1668×2420, 2420×1668, 1668×2388, 2388×1668, 1640×2360, 2360×1640, 2266×1488, 1488×2266 | 竖 / 横 |
 
 **操作：** 点击每个尺寸下方的 **"+"** 按钮，上传截图文件
+
+#### App Preview（视频，可选）
+
+| 字段 | 要求 |
+|------|------|
+| 最大时长 | 30 秒 |
+| 最大文件大小 | 100 MB |
+| 格式 | MP4 / MOV |
+| 分辨率 | 必须与截图分辨率一致 |
+| 语言 | 视频如果有口播，必须使用英文 |
+
+> ⚠️ App Preview 不是强制要求，但如果提供可以提升转化率。视频必须展示 App 真实操作，不能使用动画演示。
+
+#### 多语言支持
+
+**规则**：
+- App UI 必须使用英文（面向欧美市场）
+- 所有用户可见文本必须使用英文字符集
+- 禁止在 UI 中出现中文、韩文、日文等其他文字
+- 隐私政策语言：根据上架地区选择（欧美上架用英文）
+
+**验证方法**：
+```bash
+# 检查是否有非英文字符
+grep -rn "[一-鿿]" ios-{AppName}/ --include="*.swift"  # 中文
+grep -rn "[가-힯]" ios-{AppName}/ --include="*.swift"  # 韩文
+grep -rn "[぀-ゟ゠-ヿ]" ios-{AppName}/ --include="*.swift"  # 日文
+```
 
 #### 第九步：Build（左菜单）
 
@@ -1365,7 +2246,7 @@ focus timer, productivity, focus, concentration, study, work
 | 错误信息 | 原因 | 解决 |
 |---------|------|------|
 | "必须提供 App 隐私信息" | App 隐私未点"存储" | 返回 App 隐私页面，点"存储" |
-| "必须选择主要类别" | 类别未选 | App Store 信息 → 类别 → 选 Productivity |
+| "必须选择主要类别" | 类别未选 | App Store 信息 → 类别 → 根据 App 类型选择（参考 §8.2 类别选择指南） |
 | "名称已被使用" | App Store 名称被占 | 换名称，或用策略一处理 |
 | "截图尺寸不对" | 尺寸不符合要求，或使用了 resize/拉伸 | 用对应尺寸的模拟器或真机重新实截，不得 resize |
 | "描述包含禁止词汇" | 用了 Pomodoro 等词 | 移除并替换为替代词 |
@@ -1377,5 +2258,5 @@ focus timer, productivity, focus, concentration, study, work
 - 期间可在 App Store Connect 查看状态变化
 - 审核被拒：邮件通知具体原因，按原因修改后重新提交
 
-> **实际案例参考（JustZenGo）：** App Store 名称 JustZenGo / Bundle ID com.ggsheng.JustZen / 定价 $9.99 / 隐私政策 https://lauer3912.github.io/ios-JustZenGo/docs/PrivacyPolicy.html / 类别 Productivity / 年龄分级 4+ / 出口合规已预配置 / 登录信息否 / 禁用 Pomodoro、heatmap、emoji / 版权 Copyright © 2026 ZhiFeng Sun
-| 截图 | iPhone 6.7"(1290×2796)x3 + iPhone 6.5"(1284×2778)x3 + iPhone 6.1"(1170×2532)x3 + iPad 12.9"(2048×2732)x3 |
+> **实际案例参考（JustZenGo）：** App Store 名称 JustZenGo / Bundle ID com.ggsheng.JustZenGo / 定价 $9.99 / 隐私政策 https://lauer3912.github.io/ios-JustZenGo/docs/PrivacyPolicy.html / 类别 Productivity / 年龄分级 4+ / 出口合规已预配置 / 登录信息否 / 禁用 Pomodoro、heatmap、emoji / 版权 Copyright © 2026 JustZenGo ZhiFeng Sun / 界面设计风格 参照 §4.5 / 功能数量 ≥60
+| 截图 | iPhone 6.9"(1320×2868)x3 + iPhone 6.5"(1284×2778)x3 + iPhone 6.3"(1206×2622)x3 + iPad 13"(2048×2732)x3 + iPad 11"(1668×2388)x3 |
