@@ -1,5 +1,5 @@
 import XCTest
-@testable import DailyIQ
+@testable import DailyIQAI
 
 class Tests: XCTestCase {
     func testAppLaunch() {
