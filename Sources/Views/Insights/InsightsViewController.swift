@@ -152,7 +152,7 @@ class InsightsViewController: UIViewController {
             ("Today's Focus", "\(stats.todayMinutes) min"),
             ("Weekly Total", "\(stats.weekMinutes) min"),
             ("Daily Average", "\(Int(stats.avgDailyMinutes)) min"),
-            ("Current Streak", "\(stats.streak) days 🔥"),
+            ("Current Streak", "\(stats.streak) days"),
             ("Peak Hour", "\(stats.peakHour):00"),
         ]
 
@@ -225,9 +225,19 @@ class InsightsViewController: UIViewController {
         badge.layer.cornerRadius = Theme.CornerRadius.small
 
         let iconLabel = UILabel()
-        iconLabel.text = achievement.iconName == "star.fill" ? "⭐" :
-                        achievement.iconName == "flame.fill" ? "🔥" :
-                        achievement.iconName == "chart.line.uptrend.xyaxis" ? "📈" : "🧠"
+        iconLabel.text = {
+            switch achievement.iconName {
+            case "star.fill": return "⭐"
+            case "flame.fill": return "🔥"
+            case "chart.line.uptrend.xyaxis": return "📈"
+            case "brain.head.profile": return "🧠"
+            case "bolt.fill": return "⚡"
+            case "clock.fill": return "⏰"
+            case "checkmark.circle.fill": return "✅"
+            case "trophy.fill": return "🏆"
+            default: return "🎯"
+            }
+        }()
         iconLabel.font = .systemFont(ofSize: 24)
         iconLabel.textAlignment = .center
 

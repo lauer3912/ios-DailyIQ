@@ -203,7 +203,7 @@ class InsightsService {
         // Streak encouragement
         if focusStats.streak > 3 {
             insights.append(AIInsight(
-                title: "🔥 \(focusStats.streak) Day Streak!",
+                title: "\(focusStats.streak) Day Streak!",
                 description: "You're on fire! Keep the momentum going. Consistency is key to building productive habits.",
                 type: .productivity
             ))
