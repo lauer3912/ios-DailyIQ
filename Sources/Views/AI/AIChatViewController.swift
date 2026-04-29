@@ -90,7 +90,7 @@ class AIChatViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = Theme.Colors.bgPrimary
 
-        [headerLabel, tableView, inputContainerView].forEach { view.addSubview($0) }
+        [headerLabel, quickActionsStack, tableView, inputContainerView].forEach { view.addSubview($0) }
         inputContainerView.addSubview(inputTextField)
         inputContainerView.addSubview(sendButton)
 
@@ -99,26 +99,32 @@ class AIChatViewController: UIViewController {
             make.leading.equalToSuperview().offset(Theme.Spacing.lg)
         }
 
-        tableView.snp.makeConstraints { make in
+        quickActionsStack.snp.makeConstraints { make in
             make.top.equalTo(headerLabel.snp.bottom).offset(Theme.Spacing.md)
+            make.leading.trailing.equalToSuperview().inset(Theme.Spacing.lg)
+            make.height.equalTo(36)
+        }
+
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(quickActionsStack.snp.bottom).offset(Theme.Spacing.md)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(inputContainerView.snp.top)
         }
 
         inputContainerView.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(80)
+            make.height.equalTo(100)
         }
 
         inputTextField.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(Theme.Spacing.sm)
+            make.top.equalToSuperview().offset(Theme.Spacing.md)
             make.leading.equalToSuperview().offset(Theme.Spacing.lg)
-            make.height.equalTo(44)
+            make.trailing.equalTo(sendButton.snp.leading).offset(-Theme.Spacing.sm)
+            make.height.equalTo(48)
         }
 
         sendButton.snp.makeConstraints { make in
             make.centerY.equalTo(inputTextField)
-            make.leading.equalTo(inputTextField.snp.trailing).offset(Theme.Spacing.sm)
             make.trailing.equalToSuperview().offset(-Theme.Spacing.lg)
             make.size.equalTo(44)
         }
@@ -135,13 +141,6 @@ class AIChatViewController: UIViewController {
         for (title, icon) in actions {
             let button = createQuickActionButton(title: title, icon: icon)
             quickActionsStack.addArrangedSubview(button)
-        }
-
-        view.addSubview(quickActionsStack)
-        quickActionsStack.snp.makeConstraints { make in
-            make.top.equalTo(headerLabel.snp.bottom).offset(Theme.Spacing.sm)
-            make.leading.trailing.equalToSuperview().inset(Theme.Spacing.lg)
-            make.height.equalTo(36)
         }
     }
 
