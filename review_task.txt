@@ -1,0 +1,13 @@
+Review all Swift files in this iOS project for:
+1. Code quality and best practices
+2. iOS-specific patterns (UIKit, SnapKit usage)
+3. Memory leaks and resource management
+4. Swift 6 concurrency readiness
+5. Security issues (hardcoded data, etc)
+6. UI/UX improvements
+
+Provide a detailed report with specific issues found and recommended fixes.
+Focus on the Views folder (Today, Calendar, Goals, Insights, Settings) and Models/Theme.
+
+When completely finished, run this command to notify:
+openclaw system event --text "DailyIQ code review complete" --mode now

@@ -1,0 +1,36 @@
+# Xcode
+build/
+*.xcuserstate
+*.xcworkspace/xcuserdata/
+*.user
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/build/
+Carthage/Build/
+
+# SPM
+.swiftpm/
+
+# IDE
+.DS_Store
+.AppleDouble
+.LSOverride
+._.*
+
+# General
+*.log
+*.tmp
+*.bak
+*.swp
+*~
+
+# Test Results
+TestResults.xcresult/

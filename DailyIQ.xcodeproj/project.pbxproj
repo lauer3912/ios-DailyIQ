@@ -1,0 +1,956 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		03C0025004882A2A7D6DA0B4 /* UIViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04551B2201D54DDA560E1F5B /* UIViewController+Keyboard.swift */; };
+		054B253B00382E3F58EB32FB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9B1D60C24398232904B58B /* Theme.swift */; };
+		0CC0A045CD57E4F55F462B07 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5407C556B977119DE91659E4 /* CalendarViewController.swift */; };
+		18CE81F5DB22CD53E2725EA7 /* AISchedulingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D6C083325FFF0747124FD4 /* AISchedulingService.swift */; };
+		18FD9D036B3C2651DB0BD26D /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356449C178E046E1366DF254 /* Tests.swift */; };
+		1E39765941583ACFE5BC20E7 /* DailyIQWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C52D984DA22EAFB02E7AB940 /* DailyIQWidget.swift */; };
+		267DE313BB90F396F7102EBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF8149702E5004F5010917C /* AppDelegate.swift */; };
+		2E46F9647F78A8C0E1AA0CA4 /* FocusTimerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2604645FA3F5284FE25A933 /* FocusTimerCard.swift */; };
+		374FE36984127EC874223331 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3BB6E58E526CF1885B51C4 /* NotificationService.swift */; };
+		42601ADF6496B1F36B7136BC /* AIChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB6BAEF0C2FCD1BCF84A2BC /* AIChatViewController.swift */; };
+		4327C53D662EC281CBEF3185 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1205380F7542773C59ABB329 /* AddTaskViewController.swift */; };
+		563EA1F2D8B9E15C34749E23 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945D7130CC5C94192BBB6C75 /* Extensions.swift */; };
+		68E4D56572EFE9B920A8A7B2 /* EnergyRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D2BB2962B14EEA8FE851F7 /* EnergyRingView.swift */; };
+		6D2046A7A4791C5AB4FD9BAA /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9017647AD677B033FD894FF /* SettingsService.swift */; };
+		6ED338B7C4DC14150C3F130A /* GoalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09662032BBC0CBC6C6374EB /* GoalsViewController.swift */; };
+		728EFC05B855835BA2557B4B /* ScreenshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502084D0326DADFEE7A7EF2C /* ScreenshotTests.swift */; };
+		7F83C3F958AEAE3048F81E0D /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D528D099FA16A523EEC68 /* MainTabBarController.swift */; };
+		8A8E7A200DEE881218A99F16 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3ACCB3F71C196B6B16DF1D4C /* SnapKit */; };
+		A2ED2EF47882B46E83812A7A /* TaskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EFF07536A35BA3DD078756 /* TaskService.swift */; };
+		A74CD58311020AED1387E1B3 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9621BA73835F9FD3CF5F0FED /* SettingsViewController.swift */; };
+		A841770FFAE011EA519E2CD6 /* GoalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90BCF56754DF565378C50F3 /* GoalService.swift */; };
+		A92FD74643924417F1DC7205 /* DailyIQWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4E72E8DA9A4782E69EB68C9D /* DailyIQWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AAF95132AF39B2FF74B3ACF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74C548590083F7F63D47F122 /* Assets.xcassets */; };
+		BF087655924E3F9EEB016B32 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52554E49089BCA6BED05CA66 /* SceneDelegate.swift */; };
+		CBCB8B16F367E5B5535A0F2E /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AC906E73E43D5A7CA42C11 /* TodayViewController.swift */; };
+		D019F51E28A5F9AD52016229 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F6CF2E837A2ECFE27DB9B9 /* DataService.swift */; };
+		E025735F9D697A6D0E276995 /* TaskBlockCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4CF4AA62CB5E2511ACBE86 /* TaskBlockCard.swift */; };
+		E06686FCBA44C1AFB1840E76 /* UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56420C1A04B2508A472FA531 /* UITests.swift */; };
+		EF09754CAF0F719A0C03ADFD /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 014328CFBC84D2906A3C837A /* SQLite */; };
+		EFFF0CA7D4B6E22104D0F160 /* InsightsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8199925800338C01BCAB9D /* InsightsViewController.swift */; };
+		F2C829DA48F63C6AB6DA3730 /* TodayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA642F8F2F86B18B52C2A4A4 /* TodayViewModel.swift */; };
+		F57A5FD3945227F7FD4761FE /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37CD74ADC6C7939B809964D /* DataStore.swift */; };
+		F84EFF5B71F70A81D0252C32 /* InsightsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEE8D3A027E542703A55163 /* InsightsService.swift */; };
+		FED25E27C7F078C6397B408A /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6EB73117C683DEDBA12E03 /* Models.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		043141D9E906791F10CCC921 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BBB2842CC8A94963E24AD1A3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 849D8C35E10A0CFC0DC69426;
+			remoteInfo = DailyIQ;
+		};
+		8BBE9941CD1DD0FBC39754FD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BBB2842CC8A94963E24AD1A3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 849D8C35E10A0CFC0DC69426;
+			remoteInfo = DailyIQ;
+		};
+		C3275FF692CBA7D4299A3E72 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BBB2842CC8A94963E24AD1A3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 091F5EA91F0984E39E73D8A9;
+			remoteInfo = DailyIQWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		90A1D7704B870A594C497A73 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A92FD74643924417F1DC7205 /* DailyIQWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		03736FC11FECE6191AFB76A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		04551B2201D54DDA560E1F5B /* UIViewController+Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Keyboard.swift"; sourceTree = "<group>"; };
+		090EF36C112EBB8C98E36788 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1205380F7542773C59ABB329 /* AddTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
+		164D528D099FA16A523EEC68 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		2EB6BAEF0C2FCD1BCF84A2BC /* AIChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIChatViewController.swift; sourceTree = "<group>"; };
+		2F3BB6E58E526CF1885B51C4 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		356449C178E046E1366DF254 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		37D2BB2962B14EEA8FE851F7 /* EnergyRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyRingView.swift; sourceTree = "<group>"; };
+		3A95936E4268B97EC8BF4135 /* DailyIQ.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DailyIQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BF8149702E5004F5010917C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4E72E8DA9A4782E69EB68C9D /* DailyIQWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = DailyIQWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		502084D0326DADFEE7A7EF2C /* ScreenshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotTests.swift; sourceTree = "<group>"; };
+		52554E49089BCA6BED05CA66 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		5407C556B977119DE91659E4 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
+		56420C1A04B2508A472FA531 /* UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITests.swift; sourceTree = "<group>"; };
+		6B6EB73117C683DEDBA12E03 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		74C548590083F7F63D47F122 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		74FF8938F73AAF791A9BA343 /* DailyIQUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = DailyIQUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		945D7130CC5C94192BBB6C75 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		95F6CF2E837A2ECFE27DB9B9 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		9621BA73835F9FD3CF5F0FED /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		978543FEB714DDE282689EDE /* DailyIQTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = DailyIQTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3FA0C7DDD4C1849253BAADA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		A90BCF56754DF565378C50F3 /* GoalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalService.swift; sourceTree = "<group>"; };
+		B6EFF07536A35BA3DD078756 /* TaskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskService.swift; sourceTree = "<group>"; };
+		BA642F8F2F86B18B52C2A4A4 /* TodayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewModel.swift; sourceTree = "<group>"; };
+		BB4CF4AA62CB5E2511ACBE86 /* TaskBlockCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskBlockCard.swift; sourceTree = "<group>"; };
+		C09662032BBC0CBC6C6374EB /* GoalsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewController.swift; sourceTree = "<group>"; };
+		C52D984DA22EAFB02E7AB940 /* DailyIQWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyIQWidget.swift; sourceTree = "<group>"; };
+		C6D6C083325FFF0747124FD4 /* AISchedulingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISchedulingService.swift; sourceTree = "<group>"; };
+		C911B87DB7FA59DDF253ACA8 /* DailyIQWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DailyIQWidget.entitlements; sourceTree = "<group>"; };
+		D37CD74ADC6C7939B809964D /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		D3AC906E73E43D5A7CA42C11 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		DFEE8D3A027E542703A55163 /* InsightsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsService.swift; sourceTree = "<group>"; };
+		E9017647AD677B033FD894FF /* SettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
+		EE8199925800338C01BCAB9D /* InsightsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsViewController.swift; sourceTree = "<group>"; };
+		EE9B1D60C24398232904B58B /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		F2604645FA3F5284FE25A933 /* FocusTimerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusTimerCard.swift; sourceTree = "<group>"; };
+		F30A48BCB080AC8F03679DBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F6F229F8B43F06049CDF1092 /* DailyIQ.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DailyIQ.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		97E98F1F34796CCB56B73181 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A8E7A200DEE881218A99F16 /* SnapKit in Frameworks */,
+				EF09754CAF0F719A0C03ADFD /* SQLite in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0CAA2392ED0808C1AD734990 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				C911B87DB7FA59DDF253ACA8 /* DailyIQWidget.entitlements */,
+				C52D984DA22EAFB02E7AB940 /* DailyIQWidget.swift */,
+				F30A48BCB080AC8F03679DBC /* Info.plist */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
+		17FCF0197C3F39720E50A2A9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				945D7130CC5C94192BBB6C75 /* Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1E811D0F86827F7F11BC1EB1 = {
+			isa = PBXGroup;
+			children = (
+				833D7B5B219C77948BA5605B /* Sources */,
+				C6960B78E1E5AC23736B119D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		34A879D2D206F4D17E4F7C8A /* Today */ = {
+			isa = PBXGroup;
+			children = (
+				1205380F7542773C59ABB329 /* AddTaskViewController.swift */,
+				37D2BB2962B14EEA8FE851F7 /* EnergyRingView.swift */,
+				F2604645FA3F5284FE25A933 /* FocusTimerCard.swift */,
+				BB4CF4AA62CB5E2511ACBE86 /* TaskBlockCard.swift */,
+				D3AC906E73E43D5A7CA42C11 /* TodayViewController.swift */,
+				BA642F8F2F86B18B52C2A4A4 /* TodayViewModel.swift */,
+				0CAA2392ED0808C1AD734990 /* Widgets */,
+			);
+			path = Today;
+			sourceTree = "<group>";
+		};
+		34BE85C9A5976CF63617CADD /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				9621BA73835F9FD3CF5F0FED /* SettingsViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		47EC56BD6026F31EB7A53873 /* Goals */ = {
+			isa = PBXGroup;
+			children = (
+				C09662032BBC0CBC6C6374EB /* GoalsViewController.swift */,
+			);
+			path = Goals;
+			sourceTree = "<group>";
+		};
+		4B38B2F345F9F13673C18941 /* AI */ = {
+			isa = PBXGroup;
+			children = (
+				2EB6BAEF0C2FCD1BCF84A2BC /* AIChatViewController.swift */,
+			);
+			path = AI;
+			sourceTree = "<group>";
+		};
+		72DD8D0DDBB8D3542C36AC6B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				164D528D099FA16A523EEC68 /* MainTabBarController.swift */,
+				4B38B2F345F9F13673C18941 /* AI */,
+				F2E48B99E2A7578226258B0A /* Calendar */,
+				FEB6D2070D5E131CCF49FF6A /* Extensions */,
+				47EC56BD6026F31EB7A53873 /* Goals */,
+				92A789C888C3F00DD052EFAD /* Insights */,
+				34BE85C9A5976CF63617CADD /* Settings */,
+				34A879D2D206F4D17E4F7C8A /* Today */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		7AFAC56BE64C099EAABC81E5 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				4BF8149702E5004F5010917C /* AppDelegate.swift */,
+				F6F229F8B43F06049CDF1092 /* DailyIQ.entitlements */,
+				A3FA0C7DDD4C1849253BAADA /* Info.plist */,
+				52554E49089BCA6BED05CA66 /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		7B5C306B4AA269A56E9CD758 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				03736FC11FECE6191AFB76A1 /* Info.plist */,
+				356449C178E046E1366DF254 /* Tests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		833D7B5B219C77948BA5605B /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				7AFAC56BE64C099EAABC81E5 /* App */,
+				17FCF0197C3F39720E50A2A9 /* Extensions */,
+				9CF85FAD15EF790B5C91E7BA /* Models */,
+				CC618A5177DE326636B17A01 /* Resources */,
+				A6366B979970B350C08BFE62 /* Services */,
+				7B5C306B4AA269A56E9CD758 /* Tests */,
+				ACD8F0494CE68F1DD46484FE /* Theme */,
+				A369EF3C3BFB77C7AE9750F3 /* UITests */,
+				72DD8D0DDBB8D3542C36AC6B /* Views */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		92A789C888C3F00DD052EFAD /* Insights */ = {
+			isa = PBXGroup;
+			children = (
+				EE8199925800338C01BCAB9D /* InsightsViewController.swift */,
+			);
+			path = Insights;
+			sourceTree = "<group>";
+		};
+		9CF85FAD15EF790B5C91E7BA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D37CD74ADC6C7939B809964D /* DataStore.swift */,
+				6B6EB73117C683DEDBA12E03 /* Models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A369EF3C3BFB77C7AE9750F3 /* UITests */ = {
+			isa = PBXGroup;
+			children = (
+				090EF36C112EBB8C98E36788 /* Info.plist */,
+				502084D0326DADFEE7A7EF2C /* ScreenshotTests.swift */,
+				56420C1A04B2508A472FA531 /* UITests.swift */,
+			);
+			path = UITests;
+			sourceTree = "<group>";
+		};
+		A6366B979970B350C08BFE62 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				C6D6C083325FFF0747124FD4 /* AISchedulingService.swift */,
+				95F6CF2E837A2ECFE27DB9B9 /* DataService.swift */,
+				A90BCF56754DF565378C50F3 /* GoalService.swift */,
+				DFEE8D3A027E542703A55163 /* InsightsService.swift */,
+				2F3BB6E58E526CF1885B51C4 /* NotificationService.swift */,
+				E9017647AD677B033FD894FF /* SettingsService.swift */,
+				B6EFF07536A35BA3DD078756 /* TaskService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		ACD8F0494CE68F1DD46484FE /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				EE9B1D60C24398232904B58B /* Theme.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		C6960B78E1E5AC23736B119D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3A95936E4268B97EC8BF4135 /* DailyIQ.app */,
+				978543FEB714DDE282689EDE /* DailyIQTests.xctest */,
+				74FF8938F73AAF791A9BA343 /* DailyIQUITests.xctest */,
+				4E72E8DA9A4782E69EB68C9D /* DailyIQWidget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CC618A5177DE326636B17A01 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				74C548590083F7F63D47F122 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F2E48B99E2A7578226258B0A /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				5407C556B977119DE91659E4 /* CalendarViewController.swift */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		FEB6D2070D5E131CCF49FF6A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				04551B2201D54DDA560E1F5B /* UIViewController+Keyboard.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		091F5EA91F0984E39E73D8A9 /* DailyIQWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3266A99DB48C9DC0668C0A99 /* Build configuration list for PBXNativeTarget "DailyIQWidget" */;
+			buildPhases = (
+				43AD7E82712D636D14DEC935 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DailyIQWidget;
+			packageProductDependencies = (
+			);
+			productName = DailyIQWidget;
+			productReference = 4E72E8DA9A4782E69EB68C9D /* DailyIQWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		0EAAF7480522280FF99CF243 /* DailyIQUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CD48865BFD874C4C8F250D3B /* Build configuration list for PBXNativeTarget "DailyIQUITests" */;
+			buildPhases = (
+				9153B5A8897C9225507209C8 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5786E2282C9825D36325609E /* PBXTargetDependency */,
+			);
+			name = DailyIQUITests;
+			packageProductDependencies = (
+			);
+			productName = DailyIQUITests;
+			productReference = 74FF8938F73AAF791A9BA343 /* DailyIQUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		849D8C35E10A0CFC0DC69426 /* DailyIQ */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CA0CDFCFB88E40FA8123359F /* Build configuration list for PBXNativeTarget "DailyIQ" */;
+			buildPhases = (
+				38125CDDBC07E456A8167ED4 /* Sources */,
+				0155D646A7D645288D38D201 /* Resources */,
+				97E98F1F34796CCB56B73181 /* Frameworks */,
+				90A1D7704B870A594C497A73 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3CE09DFB4731AC7B3D008D81 /* PBXTargetDependency */,
+			);
+			name = DailyIQ;
+			packageProductDependencies = (
+				3ACCB3F71C196B6B16DF1D4C /* SnapKit */,
+				014328CFBC84D2906A3C837A /* SQLite */,
+			);
+			productName = DailyIQ;
+			productReference = 3A95936E4268B97EC8BF4135 /* DailyIQ.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A0B22ED2C8387405B7DEC2DA /* DailyIQTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5A70ACEA6DC32D5B95B79E36 /* Build configuration list for PBXNativeTarget "DailyIQTests" */;
+			buildPhases = (
+				482E36EF76D01245CE01EFB8 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				394B8FD5B3EB1CCE1F72A7D7 /* PBXTargetDependency */,
+			);
+			name = DailyIQTests;
+			packageProductDependencies = (
+			);
+			productName = DailyIQTests;
+			productReference = 978543FEB714DDE282689EDE /* DailyIQTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BBB2842CC8A94963E24AD1A3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					091F5EA91F0984E39E73D8A9 = {
+						DevelopmentTeam = 9L6N2ZF26B;
+						ProvisioningStyle = Automatic;
+					};
+					0EAAF7480522280FF99CF243 = {
+						DevelopmentTeam = 9L6N2ZF26B;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 849D8C35E10A0CFC0DC69426;
+					};
+					849D8C35E10A0CFC0DC69426 = {
+						DevelopmentTeam = 9L6N2ZF26B;
+						ProvisioningStyle = Automatic;
+					};
+					A0B22ED2C8387405B7DEC2DA = {
+						DevelopmentTeam = 9L6N2ZF26B;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = DA9CBF751C4F2ABF71779A20 /* Build configuration list for PBXProject "DailyIQ" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 1E811D0F86827F7F11BC1EB1;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				704D416AEB1F294C2696879F /* XCRemoteSwiftPackageReference "SQLite.swift" */,
+				D0A3DBDB5B3362F571B6619C /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = C6960B78E1E5AC23736B119D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				849D8C35E10A0CFC0DC69426 /* DailyIQ */,
+				A0B22ED2C8387405B7DEC2DA /* DailyIQTests */,
+				0EAAF7480522280FF99CF243 /* DailyIQUITests */,
+				091F5EA91F0984E39E73D8A9 /* DailyIQWidget */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0155D646A7D645288D38D201 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAF95132AF39B2FF74B3ACF0 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		38125CDDBC07E456A8167ED4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				42601ADF6496B1F36B7136BC /* AIChatViewController.swift in Sources */,
+				18CE81F5DB22CD53E2725EA7 /* AISchedulingService.swift in Sources */,
+				4327C53D662EC281CBEF3185 /* AddTaskViewController.swift in Sources */,
+				267DE313BB90F396F7102EBB /* AppDelegate.swift in Sources */,
+				0CC0A045CD57E4F55F462B07 /* CalendarViewController.swift in Sources */,
+				D019F51E28A5F9AD52016229 /* DataService.swift in Sources */,
+				F57A5FD3945227F7FD4761FE /* DataStore.swift in Sources */,
+				68E4D56572EFE9B920A8A7B2 /* EnergyRingView.swift in Sources */,
+				563EA1F2D8B9E15C34749E23 /* Extensions.swift in Sources */,
+				2E46F9647F78A8C0E1AA0CA4 /* FocusTimerCard.swift in Sources */,
+				A841770FFAE011EA519E2CD6 /* GoalService.swift in Sources */,
+				6ED338B7C4DC14150C3F130A /* GoalsViewController.swift in Sources */,
+				F84EFF5B71F70A81D0252C32 /* InsightsService.swift in Sources */,
+				EFFF0CA7D4B6E22104D0F160 /* InsightsViewController.swift in Sources */,
+				7F83C3F958AEAE3048F81E0D /* MainTabBarController.swift in Sources */,
+				FED25E27C7F078C6397B408A /* Models.swift in Sources */,
+				374FE36984127EC874223331 /* NotificationService.swift in Sources */,
+				BF087655924E3F9EEB016B32 /* SceneDelegate.swift in Sources */,
+				6D2046A7A4791C5AB4FD9BAA /* SettingsService.swift in Sources */,
+				A74CD58311020AED1387E1B3 /* SettingsViewController.swift in Sources */,
+				E025735F9D697A6D0E276995 /* TaskBlockCard.swift in Sources */,
+				A2ED2EF47882B46E83812A7A /* TaskService.swift in Sources */,
+				054B253B00382E3F58EB32FB /* Theme.swift in Sources */,
+				CBCB8B16F367E5B5535A0F2E /* TodayViewController.swift in Sources */,
+				F2C829DA48F63C6AB6DA3730 /* TodayViewModel.swift in Sources */,
+				03C0025004882A2A7D6DA0B4 /* UIViewController+Keyboard.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43AD7E82712D636D14DEC935 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E39765941583ACFE5BC20E7 /* DailyIQWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		482E36EF76D01245CE01EFB8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18FD9D036B3C2651DB0BD26D /* Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9153B5A8897C9225507209C8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				728EFC05B855835BA2557B4B /* ScreenshotTests.swift in Sources */,
+				E06686FCBA44C1AFB1840E76 /* UITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		394B8FD5B3EB1CCE1F72A7D7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 849D8C35E10A0CFC0DC69426 /* DailyIQ */;
+			targetProxy = 8BBE9941CD1DD0FBC39754FD /* PBXContainerItemProxy */;
+		};
+		3CE09DFB4731AC7B3D008D81 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 091F5EA91F0984E39E73D8A9 /* DailyIQWidget */;
+			targetProxy = C3275FF692CBA7D4299A3E72 /* PBXContainerItemProxy */;
+		};
+		5786E2282C9825D36325609E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 849D8C35E10A0CFC0DC69426 /* DailyIQ */;
+			targetProxy = 043141D9E906791F10CCC921 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		02D6C2F39FD493C694BEEB1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGN_ENTITLEMENTS = Sources/Views/Today/Widgets/DailyIQWidget.entitlements;
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/Views/Today/Widgets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggsheng.DailyIQ.widget;
+				PRODUCT_NAME = DailyIQWidget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		29704519135E7179F565EEE7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/UITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggsheng.DailyIQUITests;
+				PRODUCT_NAME = DailyIQUITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET = "$(BUILT_PRODUCTS_DIR)/DailyIQAI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DailyIQAI";
+				TEST_TARGET_NAME = DailyIQ;
+			};
+			name = Release;
+		};
+		63DF5945562AA2895D25F5D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGN_ENTITLEMENTS = Sources/App/DailyIQ.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggsheng.DailyIQ;
+				PRODUCT_NAME = DailyIQAI;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		992A7938F09BA26ABB505F78 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/UITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggsheng.DailyIQUITests;
+				PRODUCT_NAME = DailyIQUITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET = "$(BUILT_PRODUCTS_DIR)/DailyIQAI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DailyIQAI";
+				TEST_TARGET_NAME = DailyIQ;
+			};
+			name = Debug;
+		};
+		B5FFAFF00090DF925E2E7FF5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggsheng.DailyIQTests;
+				PRODUCT_NAME = DailyIQTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DailyIQAI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DailyIQAI";
+			};
+			name = Debug;
+		};
+		CB5584B54FBE045DE3AE37B4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_ENTITLEMENTS = Sources/Views/Today/Widgets/DailyIQWidget.entitlements;
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/Views/Today/Widgets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggsheng.DailyIQ.widget;
+				PRODUCT_NAME = DailyIQWidget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D2274F44E1AF066D8C5B1A3F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		E7231B27EEEBE484DF5E71AC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		ED8D7DC1847808B90882715A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggsheng.DailyIQTests;
+				PRODUCT_NAME = DailyIQTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DailyIQAI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DailyIQAI";
+			};
+			name = Release;
+		};
+		F5E9F8CB31096F551B85A271 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_ENTITLEMENTS = Sources/App/DailyIQ.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggsheng.DailyIQ;
+				PRODUCT_NAME = DailyIQAI;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3266A99DB48C9DC0668C0A99 /* Build configuration list for PBXNativeTarget "DailyIQWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CB5584B54FBE045DE3AE37B4 /* Debug */,
+				02D6C2F39FD493C694BEEB1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5A70ACEA6DC32D5B95B79E36 /* Build configuration list for PBXNativeTarget "DailyIQTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5FFAFF00090DF925E2E7FF5 /* Debug */,
+				ED8D7DC1847808B90882715A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		CA0CDFCFB88E40FA8123359F /* Build configuration list for PBXNativeTarget "DailyIQ" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F5E9F8CB31096F551B85A271 /* Debug */,
+				63DF5945562AA2895D25F5D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		CD48865BFD874C4C8F250D3B /* Build configuration list for PBXNativeTarget "DailyIQUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				992A7938F09BA26ABB505F78 /* Debug */,
+				29704519135E7179F565EEE7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DA9CBF751C4F2ABF71779A20 /* Build configuration list for PBXProject "DailyIQ" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E7231B27EEEBE484DF5E71AC /* Debug */,
+				D2274F44E1AF066D8C5B1A3F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		704D416AEB1F294C2696879F /* XCRemoteSwiftPackageReference "SQLite.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.14.1;
+			};
+		};
+		D0A3DBDB5B3362F571B6619C /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		014328CFBC84D2906A3C837A /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 704D416AEB1F294C2696879F /* XCRemoteSwiftPackageReference "SQLite.swift" */;
+			productName = SQLite;
+		};
+		3ACCB3F71C196B6B16DF1D4C /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D0A3DBDB5B3362F571B6619C /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = BBB2842CC8A94963E24AD1A3 /* Project object */;
+}

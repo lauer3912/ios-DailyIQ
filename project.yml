@@ -1,0 +1,156 @@
+name: DailyIQ
+options:
+  bundleIdPrefix: com.ggsheng
+  deploymentTarget:
+    iOS: "15.0"
+  xcodeVersion: "16.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    DEVELOPMENT_TEAM: "9L6N2ZF26B"
+    CODE_SIGN_STYLE: Automatic
+    SWIFT_VERSION: "5.9"
+    ENABLE_PREVIEWS: YES
+    ENABLE_USER_SCRIPT_SANDBOXING: NO
+
+targets:
+  DailyIQ:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources
+        excludes:
+          - "**/Tests/**"
+          - "**/UITests/**"
+          - "**/Widgets/**"
+          - "**/*Widget*.swift"
+    resources:
+      - path: Sources/Resources/Assets.xcassets
+    settings:
+      base:
+        INFOPLIST_FILE: Sources/App/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.DailyIQ
+        PRODUCT_NAME: DailyIQAI
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        GENERATE_INFOPLIST_FILE: NO
+        CODE_SIGN_ENTITLEMENTS: Sources/App/DailyIQ.entitlements
+        TARGETED_DEVICE_FAMILY: "1,2"
+        IPHONEOS_DEPLOYMENT_TARGET: "15.0"
+      configs:
+        Debug:
+          CODE_SIGNING_ALLOWED: NO
+        Release:
+          CODE_SIGNING_ALLOWED: YES
+    dependencies:
+      - package: SnapKit
+      - package: SQLite.swift
+        product: SQLite
+      - target: DailyIQWidget
+        embed: true
+
+  DailyIQWidget:
+    type: app-extension
+    platform: iOS
+    deploymentTarget:
+      iOS: "17.0"
+    sources:
+      - path: Sources/Views/Today/Widgets
+        excludes:
+          - "**/.DS_Store"
+    settings:
+      base:
+        INFOPLIST_FILE: Sources/Views/Today/Widgets/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.DailyIQ.widget
+        PRODUCT_NAME: DailyIQWidget
+        GENERATE_INFOPLIST_FILE: NO
+        SWIFT_EMIT_LOC_STRINGS: YES
+        CODE_SIGN_ENTITLEMENTS: Sources/Views/Today/Widgets/DailyIQWidget.entitlements
+        CODE_SIGNING_ALLOWED: NO
+        DEVELOPMENT_TEAM: 9L6N2ZF26B
+        SKIP_INSTALL: YES
+        IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+        LD_RUNPATH_SEARCH_PATHS:
+          - "$(inherited)"
+          - "@executable_path/Frameworks"
+          - "@executable_path/../../Frameworks"
+      configs:
+        Debug:
+          CODE_SIGNING_ALLOWED: NO
+        Release:
+          CODE_SIGNING_ALLOWED: YES
+    entitlements:
+      path: Sources/Views/Today/Widgets/DailyIQWidget.entitlements
+
+  DailyIQTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: Sources/Tests
+    dependencies:
+      - target: DailyIQ
+    settings:
+      base:
+        INFOPLIST_FILE: Sources/Tests/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.DailyIQTests
+        PRODUCT_NAME: DailyIQTests
+        GENERATE_INFOPLIST_FILE: NO
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/DailyIQAI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DailyIQAI"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: "9L6N2ZF26B"
+      configs:
+        Debug:
+          CODE_SIGNING_ALLOWED: NO
+        Release:
+          CODE_SIGNING_ALLOWED: YES
+
+  DailyIQUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: Sources/UITests
+    dependencies:
+      - target: DailyIQ
+    settings:
+      base:
+        INFOPLIST_FILE: Sources/UITests/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.DailyIQUITests
+        PRODUCT_NAME: DailyIQUITests
+        GENERATE_INFOPLIST_FILE: NO
+        TEST_TARGET: "$(BUILT_PRODUCTS_DIR)/DailyIQAI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DailyIQAI"
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: "9L6N2ZF26B"
+      configs:
+        Debug:
+          CODE_SIGNING_ALLOWED: NO
+        Release:
+          CODE_SIGNING_ALLOWED: YES
+
+packages:
+  SnapKit:
+    url: https://github.com/SnapKit/SnapKit
+    from: "5.6.0"
+  SQLite.swift:
+    url: https://github.com/stephencelis/SQLite.swift
+    from: "0.14.1"
+
+schemes:
+  DailyIQ:
+    build:
+      targets:
+        DailyIQ: all
+        DailyIQWidget: all
+        DailyIQTests: [test]
+        DailyIQUITests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - DailyIQTests
+        - DailyIQUITests
+    archive:
+      config: Release
