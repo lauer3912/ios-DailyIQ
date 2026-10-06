@@ -1,5 +1,6 @@
 import UIKit
 import SnapKit
+import SwiftUI
 
 class SettingsViewController: UIViewController {
 
@@ -26,6 +27,7 @@ class SettingsViewController: UIViewController {
     }()
 
     private enum Section: Int, CaseIterable {
+        case membership
         case appearance
         case workday
         case notifications
@@ -36,6 +38,7 @@ class SettingsViewController: UIViewController {
 
         var title: String {
             switch self {
+            case .membership: return "Membership & Credits"
             case .appearance: return "Appearance"
             case .workday: return "Workday"
             case .notifications: return "Notifications"
@@ -48,6 +51,7 @@ class SettingsViewController: UIViewController {
 
         var rowCount: Int {
             switch self {
+            case .membership: return 1
             case .appearance: return 3
             case .workday: return 3
             case .notifications: return 2
@@ -109,6 +113,8 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         }
 
         switch sectionType {
+        case .membership:
+            return membershipCell(for: indexPath)
         case .appearance:
             return appearanceCell(for: indexPath)
         case .workday:
@@ -132,6 +138,9 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         guard let sectionType = Section(rawValue: indexPath.section) else { return }
 
         switch sectionType {
+        case .membership:
+            let hostingVC = UIHostingController(rootView: FreemiumView())
+            present(hostingVC, animated: true)
         case .appearance:
             handleAppearanceSelection(indexPath)
         case .workday:
@@ -150,6 +159,15 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     // MARK: - Cell Creation
+
+    private func membershipCell(for indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        cell.backgroundColor = Theme.Colors.bgSecondary
+        cell.textLabel?.textColor = Theme.Colors.accentPrimary
+        cell.textLabel?.text = "✨ Cognitive Quota & Pro Membership"
+        cell.accessoryType = .disclosureIndicator
+        return cell
+    }
 
     private func appearanceCell(for indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)

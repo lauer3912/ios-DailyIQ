@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0303B0DD4535C214DC09AE0E /* BuyservicesClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69D61A75C9D54AEF6671E09 /* BuyservicesClient.swift */; };
 		03C0025004882A2A7D6DA0B4 /* UIViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04551B2201D54DDA560E1F5B /* UIViewController+Keyboard.swift */; };
 		054B253B00382E3F58EB32FB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9B1D60C24398232904B58B /* Theme.swift */; };
 		0CC0A045CD57E4F55F462B07 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5407C556B977119DE91659E4 /* CalendarViewController.swift */; };
@@ -25,6 +26,7 @@
 		728EFC05B855835BA2557B4B /* ScreenshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502084D0326DADFEE7A7EF2C /* ScreenshotTests.swift */; };
 		7F83C3F958AEAE3048F81E0D /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D528D099FA16A523EEC68 /* MainTabBarController.swift */; };
 		8A8E7A200DEE881218A99F16 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3ACCB3F71C196B6B16DF1D4C /* SnapKit */; };
+		9BF9B5FA7148CAEC0FAFDB6C /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD7803F454E201B85A0BF0F /* PaywallView.swift */; };
 		A2ED2EF47882B46E83812A7A /* TaskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EFF07536A35BA3DD078756 /* TaskService.swift */; };
 		A74CD58311020AED1387E1B3 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9621BA73835F9FD3CF5F0FED /* SettingsViewController.swift */; };
 		A841770FFAE011EA519E2CD6 /* GoalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90BCF56754DF565378C50F3 /* GoalService.swift */; };
@@ -36,10 +38,12 @@
 		E025735F9D697A6D0E276995 /* TaskBlockCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4CF4AA62CB5E2511ACBE86 /* TaskBlockCard.swift */; };
 		E06686FCBA44C1AFB1840E76 /* UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56420C1A04B2508A472FA531 /* UITests.swift */; };
 		EF09754CAF0F719A0C03ADFD /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 014328CFBC84D2906A3C837A /* SQLite */; };
+		EFC0DF2D95A3B99ECD2CEAEB /* FreemiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE37B444B57EB222CFB9FC5D /* FreemiumView.swift */; };
 		EFFF0CA7D4B6E22104D0F160 /* InsightsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8199925800338C01BCAB9D /* InsightsViewController.swift */; };
 		F2C829DA48F63C6AB6DA3730 /* TodayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA642F8F2F86B18B52C2A4A4 /* TodayViewModel.swift */; };
 		F57A5FD3945227F7FD4761FE /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37CD74ADC6C7939B809964D /* DataStore.swift */; };
 		F84EFF5B71F70A81D0252C32 /* InsightsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEE8D3A027E542703A55163 /* InsightsService.swift */; };
+		FD31B30E866FFFA7A9088AE2 /* HuggingFaceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11AF239AB54B41DA8F5DA95 /* HuggingFaceClient.swift */; };
 		FED25E27C7F078C6397B408A /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6EB73117C683DEDBA12E03 /* Models.swift */; };
 /* End PBXBuildFile section */
 
@@ -92,6 +96,7 @@
 		356449C178E046E1366DF254 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		37D2BB2962B14EEA8FE851F7 /* EnergyRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyRingView.swift; sourceTree = "<group>"; };
 		3A95936E4268B97EC8BF4135 /* DailyIQ.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DailyIQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3FD7803F454E201B85A0BF0F /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		4BF8149702E5004F5010917C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4E72E8DA9A4782E69EB68C9D /* DailyIQWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = DailyIQWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		502084D0326DADFEE7A7EF2C /* ScreenshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotTests.swift; sourceTree = "<group>"; };
@@ -105,6 +110,7 @@
 		95F6CF2E837A2ECFE27DB9B9 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		9621BA73835F9FD3CF5F0FED /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		978543FEB714DDE282689EDE /* DailyIQTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = DailyIQTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A11AF239AB54B41DA8F5DA95 /* HuggingFaceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuggingFaceClient.swift; sourceTree = "<group>"; };
 		A3FA0C7DDD4C1849253BAADA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A90BCF56754DF565378C50F3 /* GoalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalService.swift; sourceTree = "<group>"; };
 		B6EFF07536A35BA3DD078756 /* TaskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskService.swift; sourceTree = "<group>"; };
@@ -117,7 +123,9 @@
 		D37CD74ADC6C7939B809964D /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		D3AC906E73E43D5A7CA42C11 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		DFEE8D3A027E542703A55163 /* InsightsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsService.swift; sourceTree = "<group>"; };
+		E69D61A75C9D54AEF6671E09 /* BuyservicesClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyservicesClient.swift; sourceTree = "<group>"; };
 		E9017647AD677B033FD894FF /* SettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
+		EE37B444B57EB222CFB9FC5D /* FreemiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreemiumView.swift; sourceTree = "<group>"; };
 		EE8199925800338C01BCAB9D /* InsightsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsViewController.swift; sourceTree = "<group>"; };
 		EE9B1D60C24398232904B58B /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		F2604645FA3F5284FE25A933 /* FocusTimerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusTimerCard.swift; sourceTree = "<group>"; };
@@ -202,6 +210,17 @@
 			path = AI;
 			sourceTree = "<group>";
 		};
+		6D958DC8ACF8EC4F1D6998B9 /* Freemium */ = {
+			isa = PBXGroup;
+			children = (
+				E69D61A75C9D54AEF6671E09 /* BuyservicesClient.swift */,
+				EE37B444B57EB222CFB9FC5D /* FreemiumView.swift */,
+				A11AF239AB54B41DA8F5DA95 /* HuggingFaceClient.swift */,
+				3FD7803F454E201B85A0BF0F /* PaywallView.swift */,
+			);
+			path = Freemium;
+			sourceTree = "<group>";
+		};
 		72DD8D0DDBB8D3542C36AC6B /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -242,6 +261,7 @@
 			children = (
 				7AFAC56BE64C099EAABC81E5 /* App */,
 				17FCF0197C3F39720E50A2A9 /* Extensions */,
+				6D958DC8ACF8EC4F1D6998B9 /* Freemium */,
 				9CF85FAD15EF790B5C91E7BA /* Models */,
 				CC618A5177DE326636B17A01 /* Resources */,
 				A6366B979970B350C08BFE62 /* Services */,
@@ -490,19 +510,23 @@
 				18CE81F5DB22CD53E2725EA7 /* AISchedulingService.swift in Sources */,
 				4327C53D662EC281CBEF3185 /* AddTaskViewController.swift in Sources */,
 				267DE313BB90F396F7102EBB /* AppDelegate.swift in Sources */,
+				0303B0DD4535C214DC09AE0E /* BuyservicesClient.swift in Sources */,
 				0CC0A045CD57E4F55F462B07 /* CalendarViewController.swift in Sources */,
 				D019F51E28A5F9AD52016229 /* DataService.swift in Sources */,
 				F57A5FD3945227F7FD4761FE /* DataStore.swift in Sources */,
 				68E4D56572EFE9B920A8A7B2 /* EnergyRingView.swift in Sources */,
 				563EA1F2D8B9E15C34749E23 /* Extensions.swift in Sources */,
 				2E46F9647F78A8C0E1AA0CA4 /* FocusTimerCard.swift in Sources */,
+				EFC0DF2D95A3B99ECD2CEAEB /* FreemiumView.swift in Sources */,
 				A841770FFAE011EA519E2CD6 /* GoalService.swift in Sources */,
 				6ED338B7C4DC14150C3F130A /* GoalsViewController.swift in Sources */,
+				FD31B30E866FFFA7A9088AE2 /* HuggingFaceClient.swift in Sources */,
 				F84EFF5B71F70A81D0252C32 /* InsightsService.swift in Sources */,
 				EFFF0CA7D4B6E22104D0F160 /* InsightsViewController.swift in Sources */,
 				7F83C3F958AEAE3048F81E0D /* MainTabBarController.swift in Sources */,
 				FED25E27C7F078C6397B408A /* Models.swift in Sources */,
 				374FE36984127EC874223331 /* NotificationService.swift in Sources */,
+				9BF9B5FA7148CAEC0FAFDB6C /* PaywallView.swift in Sources */,
 				BF087655924E3F9EEB016B32 /* SceneDelegate.swift in Sources */,
 				6D2046A7A4791C5AB4FD9BAA /* SettingsService.swift in Sources */,
 				A74CD58311020AED1387E1B3 /* SettingsViewController.swift in Sources */,
@@ -616,7 +640,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Sources/App/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -731,7 +755,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 9L6N2ZF26B;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -746,8 +770,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.0.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -793,7 +817,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 9L6N2ZF26B;
 				ENABLE_PREVIEWS = YES;
@@ -814,8 +838,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.0.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -858,7 +882,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Sources/App/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
